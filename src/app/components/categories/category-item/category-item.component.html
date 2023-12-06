@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{data.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{data.description}}</p>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions [align]="'end'">
+    <button mat-button (click)="editCategory()">
+      <mat-icon aria-hidden="false" aria-label="Edit category icon">edit</mat-icon>
+      EDIT
+    </button>
+
+    <button mat-button (click)="deleteCategory()">
+      <mat-icon aria-hidden="false" aria-label="Delete category icon">delete_forever</mat-icon>
+      DELETE
+    </button>
+  </mat-card-actions>
+</mat-card>

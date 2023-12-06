@@ -1,0 +1,32 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.grid-container {
+  margin: 20px;
+}
+
+.list-item-active:before {
+  background-color: var(--mdc-list-list-item-focus-state-layer-color);
+  opacity: var(--mdc-list-list-item-focus-state-layer-opacity);
+}
+
+.d-inline-flex {
+  display: inline-flex;
+  //align-items: center;
+  gap: 8px;
+}

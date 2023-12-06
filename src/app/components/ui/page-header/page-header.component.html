@@ -1,0 +1,10 @@
+<div class="page-header">
+  <h1 class="mat-h1">{{ page }}</h1>
+
+  @if(showNewButton) {
+    <button mat-flat-button color="primary" (click)="onNewClicked.emit()">
+      <mat-icon aria-hidden="false" aria-label="Add icon" fontIcon="add"></mat-icon>
+      New
+    </button>
+  }
+</div>

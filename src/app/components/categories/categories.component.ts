@@ -1,0 +1,52 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { CategoryItemComponent } from "./category-item/category-item.component";
+import { MatIconModule } from "@angular/material/icon";
+import { PageHeaderComponent } from "../ui/page-header/page-header.component";
+import { CategoryService } from "../../services/category.service";
+import { CategoryCreateComponent } from "./category-create/category-create.component";
+import { MatDialog } from "@angular/material/dialog";
+import { NgFor } from "@angular/common";
+import { CategoryEditComponent } from "./category-edit/category-edit.component";
+import { Category } from "../../models/categories/response/read-category.dto";
+
+@Component({
+  selector: 'app-categories',
+  standalone: true,
+  imports: [NgFor, MatGridListModule, MatIconModule, MatCardModule, MatButtonModule, CategoryItemComponent, PageHeaderComponent],
+  templateUrl: './categories.component.html',
+  styleUrl: './categories.component.scss'
+})
+export class CategoriesComponent implements OnInit {
+  #dialog = inject(MatDialog);
+  #categoriesService = inject(CategoryService);
+
+  categories = this.#categoriesService.categories;
+
+  ngOnInit(): void {
+    this.#categoriesService.getAllCategories().subscribe();
+  }
+
+  deleteCategory(id: string) {
+    this.#categoriesService.removeCategory(id).subscribe();
+  }
+
+  openEditDialog(category: Category): void {
+    this.#dialog.open(CategoryEditComponent, {
+      data: {
+        ...category
+      },
+      width: '400px',
+      height: '470px'
+    })
+  }
+
+  openCreateDialog() {
+    this.#dialog.open(CategoryCreateComponent, {
+      width: '400px',
+      height: '470px'
+    });
+  }
+}

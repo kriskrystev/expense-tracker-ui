@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Create Category</h1>
+<div mat-dialog-content>
+  <form *ngIf="form" [formGroup]="form">
+    <mat-form-field color="accent" appearance="outline" [style.margin-bottom]="matcher.isErrorState(form.controls['name'], form) ? '1rem' : ''">
+      <mat-label>Name</mat-label>
+      <input matInput [errorStateMatcher]="matcher" [formControl]="form.get('name')">
+      <mat-error>
+        <app-form-field-error-message [control]="form.controls['name']"
+                                      [isErrorState]="matcher.isErrorState(form.controls['name'], form)"></app-form-field-error-message>
+      </mat-error>
+
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput [errorStateMatcher]="matcher" [formControl]="form.get('description')" rows="5"></textarea>
+      <mat-error>
+        <app-form-field-error-message [control]="form.controls['description']"
+                                      [isErrorState]="matcher.isErrorState(form.controls['description'], form)"></app-form-field-error-message>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button color="accent" mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" (click)="confirm()">Create</button>
+</div>
