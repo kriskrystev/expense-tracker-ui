@@ -62,5 +62,9 @@ export class CategoryService {
       })
     );
   }
+
+  checkIfExists(name: string): Observable<boolean> {
+    return this.#http.post<boolean>(`${this.#url}/category/check-if-exists`, {name});
+  }
 }
 

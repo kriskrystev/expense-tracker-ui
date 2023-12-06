@@ -1,8 +1,9 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, EnvironmentInjector, inject, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions, MatDialogClose,
+  MatDialogActions,
+  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle
@@ -52,7 +53,7 @@ export class CategoryEditComponent {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      name: [this.data.name || "", Validators.required],
+      name: [this.data.name || "", [Validators.required]],
       description: [this.data.description || "", Validators.required],
     })
   }

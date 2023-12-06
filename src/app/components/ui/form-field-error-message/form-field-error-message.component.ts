@@ -10,10 +10,11 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { AbstractControl } from "@angular/forms";
-import { ErrorRendererStrategy } from "../../../core/strategy/error-renderer.strategy";
-import { ErrorStrategiesMap, GENERIC_RENDERER_INJECTION_TOKEN } from "../../../core/strategy/error-strategies-map";
+import { ErrorRendererStrategy } from "../../../core/strategy/error-handling/error-renderer.strategy";
+import { ErrorStrategiesMap } from "../../../core/strategy/error-handling/error-strategies-map";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { NgIf } from "@angular/common";
+import { GENERIC_RENDERER_INJECTION_TOKEN } from "../../../core/strategy/error-handling/tokens/injection-tokens";
 
 @Component({
   selector: 'app-form-field-error-message',
