@@ -12,10 +12,26 @@ import { NgFor } from "@angular/common";
 import { CategoryEditComponent } from "./category-edit/category-edit.component";
 import { Category } from "../../models/categories/response/read-category.dto";
 
+const coreImports = [
+  NgFor
+];
+
+const materialImports = [
+  MatGridListModule,
+  MatIconModule,
+  MatCardModule,
+  MatButtonModule
+];
+
+const internalImports = [
+  CategoryItemComponent,
+  PageHeaderComponent
+];
+
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [NgFor, MatGridListModule, MatIconModule, MatCardModule, MatButtonModule, CategoryItemComponent, PageHeaderComponent],
+  imports: [...coreImports, ...materialImports, ...internalImports],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
@@ -29,7 +45,7 @@ export class CategoriesComponent implements OnInit {
     this.#categoriesService.getAllCategories().subscribe();
   }
 
-  deleteCategory(id: string) {
+  deleteCategory(id: string): void {
     this.#categoriesService.removeCategory(id).subscribe();
   }
 
@@ -43,7 +59,7 @@ export class CategoriesComponent implements OnInit {
     })
   }
 
-  openCreateDialog() {
+  openCreateDialog(): void {
     this.#dialog.open(CategoryCreateComponent, {
       width: '400px',
       height: '470px'
