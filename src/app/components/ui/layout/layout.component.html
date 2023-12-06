@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
+  <mat-sidenav #navigationDrawer class="sidenav" fixedInViewport
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="(isHandset$ | async) === false">
@@ -42,7 +42,7 @@
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()">
+        (click)="navigationDrawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       }
@@ -52,4 +52,12 @@
       <ng-content></ng-content>
     </div>
   </mat-sidenav-content>
+
+  <mat-sidenav #formsDrawer
+               class="sidenav-end"
+               position="end"
+               [opened]="sidenavOpened"
+               [mode]="'side'">
+    <ng-container *ngComponentOutlet="currentSideNavContent.component; inputs: currentSideNavContent.inputs"></ng-container>
+  </mat-sidenav>
 </mat-sidenav-container>

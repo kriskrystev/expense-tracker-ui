@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { PageHeaderComponent } from "../ui/page-header/page-header.component";
+import { AppService } from "../../services/app.service";
+import { ExpenseCreateComponent } from "./expense-create/expense-create.component";
 
 @Component({
   selector: 'app-expenses',
@@ -12,4 +14,13 @@ import { PageHeaderComponent } from "../ui/page-header/page-header.component";
 })
 export class ExpensesComponent {
 
+  constructor(private appService: AppService) {
+  }
+
+  nextNewEvent() {
+    this.appService.newForm.next({
+      component: ExpenseCreateComponent,
+      inputs: []
+    })
+  }
 }
