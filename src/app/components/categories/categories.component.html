@@ -1,15 +1,33 @@
-<app-page-header [page]="'Categories'" [showNewButton]="true" (onNewClicked)="openCreateDialog()"></app-page-header>
+<app-page-header
+  [page]="'Categories'"
+  [showNewButton]="true"
+  (onNewClicked)="openCreateDialog()"
+>
+  <mat-paginator
+    (page)="handlePageEvent($event)"
+    [length]="categoriesPageInfo().itemCount"
+    [pageSize]="categoriesPageInfo().take"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [showFirstLastButtons]="true"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</app-page-header>
 
 <div class="categories">
   @for(category of categories(); track category.id) {
-    <app-category-item [data]="category"
-                       (onEditCategoryClicked)="openEditDialog($event)"
-                       (onCategoryDeleteClicked)="deleteCategory($event)"
-    ></app-category-item>
+  <app-category-item
+    [data]="category"
+    (onEditCategoryClicked)="openEditDialog($event)"
+    (onCategoryDeleteClicked)="deleteCategory($event)"
+  ></app-category-item>
   } @empty {
-    <p>
-      There are currently no categories in the system.
-      Click <button mat-button color="primary" (click)="openCreateDialog()">here</button> to create one.
-    </p>
+  <p>
+    There are currently no categories in the system. Click
+    <button mat-button color="primary" (click)="openCreateDialog()">
+      here
+    </button>
+    to create one.
+  </p>
   }
 </div>

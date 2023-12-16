@@ -3,6 +3,7 @@ export interface PageMetaDto {
   page: number;
   itemCount: number;
   pageCount: number;
+
   hasPreviousPage: boolean;
   hasNextPage: boolean;
 }

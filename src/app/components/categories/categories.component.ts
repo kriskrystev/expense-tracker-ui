@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CategoryItemComponent } from './category-item/category-item.component';
 import { MatIconModule } from '@angular/material/icon';
 import { PageHeaderComponent } from '../ui/page-header/page-header.component';
@@ -21,6 +22,7 @@ const materialImports = [
   MatIconModule,
   MatCardModule,
   MatButtonModule,
+  MatPaginatorModule,
 ];
 
 const internalImports = [CategoryItemComponent, PageHeaderComponent];
@@ -37,6 +39,7 @@ export class CategoriesComponent implements OnInit {
   #categoriesService = inject(CategoryService);
 
   categories = this.#categoriesService.categories;
+  categoriesPageInfo = this.#categoriesService.categoriesPageInfo;
 
   ngOnInit(): void {
     this.#categoriesService
@@ -63,5 +66,13 @@ export class CategoriesComponent implements OnInit {
       width: '400px',
       height: '470px',
     });
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.#categoriesService
+      .getAllCategories(
+        new PageOptionsDto(Order.DESC, event.pageIndex + 1, event.pageSize)
+      )
+      .subscribe();
   }
 }

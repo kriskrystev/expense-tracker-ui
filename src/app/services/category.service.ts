@@ -7,12 +7,21 @@ import { UpdateCategoryDto } from '../models/categories/request/update-category.
 import { PageOptionsDto } from '../core/dto/page-options.dto';
 import { PageDto } from '../core/dto/page.dto';
 import { HttpPageParamsBuilder } from '../core/builders/http-page-params.builder';
+import { PageMetaDto } from '../core/dto/page-meta.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
   categories = signal<Category[]>([]);
+  categoriesPageInfo = signal<PageMetaDto>({
+    take: 10,
+    page: 1,
+    itemCount: 0,
+    pageCount: 0,
+    hasPreviousPage: false,
+    hasNextPage: false,
+  });
 
   #http = inject(HttpClient);
   #url = 'http://localhost:3000/api';
@@ -33,6 +42,7 @@ export class CategoryService {
       .pipe(
         tap((pageDto: PageDto<Category>) => {
           this.categories.set(pageDto.data);
+          this.categoriesPageInfo.set(pageDto.meta);
         })
       );
   }
