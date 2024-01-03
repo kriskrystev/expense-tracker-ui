@@ -18,6 +18,8 @@ import { PageOptionsDto } from '../../../core/dto/page-options.dto';
 import { Order } from '../../../core/enums/order.enum';
 import { ValidateForm } from '../../../core/decorators/validate-form.decorator';
 import { AppService } from '../../../services/app.service';
+import { ExpenseService } from '../../../services/expense-service.service';
+import { take } from 'rxjs';
 
 const core = [NgIf, FormsModule, ReactiveFormsModule];
 
@@ -46,6 +48,7 @@ export class ExpenseCreateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
+    private expenseService: ExpenseService,
     private appService: AppService
   ) {}
 
@@ -64,7 +67,12 @@ export class ExpenseCreateComponent implements OnInit {
   }
 
   @ValidateForm()
-  confirm(): void {}
+  confirm(): void {
+    this.expenseService
+      .createExpense(this.form.value)
+      .pipe(take(1))
+      .subscribe();
+  }
 
   closeDrawer() {
     this.appService.sideNavContent.next({
