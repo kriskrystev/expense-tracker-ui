@@ -8,8 +8,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable, Subject, tap } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { RouterModule } from "@angular/router";
-import { AppService } from "../../../services/app.service";
+import { RouterModule } from '@angular/router';
+import { AppService } from '../../../services/app.service';
 
 @Component({
   selector: 'app-layout',
@@ -24,29 +24,32 @@ import { AppService } from "../../../services/app.service";
     MatIconModule,
     AsyncPipe,
     NgComponentOutlet,
-    RouterModule
-  ]
+    RouterModule,
+  ],
 })
 export class LayoutComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   sidenavOpened = false;
-  currentSideNavContent: any = {}
+  currentSideNavContent: any = {};
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches),
+      map((result) => result.matches),
       shareReplay()
     );
 
-  constructor(private appService: AppService) {
-  }
+  constructor(private appService: AppService) {}
 
   ngOnInit(): void {
-    this.appService.newForm.pipe(
-      tap((newForm) => {
-        this.currentSideNavContent = newForm;
-        this.sidenavOpened = true;
-      })
-    ).subscribe();
+    // TODO: make a service for managing sidenavs
+    this.appService.sideNavContent
+      .pipe(
+        tap((value: { content?: any; open: boolean }) => {
+          this.sidenavOpened = value.open;
+          this.currentSideNavContent = value.content;
+        })
+      )
+      .subscribe();
   }
 }

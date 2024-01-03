@@ -1,35 +1,57 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #navigationDrawer class="sidenav" fixedInViewport
-               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-               [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="(isHandset$ | async) === false">
+  <mat-sidenav
+    #navigationDrawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item
-         routerLink="dashboard"
-         routerLinkActive
-         #routerLinkActiveInstance1="routerLinkActive"
-         [class.list-item-active]="routerLinkActiveInstance1.isActive">
+      <a
+        mat-list-item
+        routerLink="dashboard"
+        routerLinkActive
+        #routerLinkActiveInstance1="routerLinkActive"
+        [class.list-item-active]="routerLinkActiveInstance1.isActive"
+      >
         <div class="d-inline-flex">
-          <mat-icon aria-hidden="false" aria-label="Dashboard nav list item icon">dashboard</mat-icon>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Dashboard nav list item icon"
+            >dashboard</mat-icon
+          >
           <span>Dashboard</span>
         </div>
       </a>
-      <a mat-list-item
-         routerLink="expenses"
-         routerLinkActive
-         #routerLinkActiveInstance2="routerLinkActive"
-         [class.list-item-active]="routerLinkActiveInstance2.isActive">
+      <a
+        mat-list-item
+        routerLink="expenses"
+        routerLinkActive
+        #routerLinkActiveInstance2="routerLinkActive"
+        [class.list-item-active]="routerLinkActiveInstance2.isActive"
+      >
         <div class="d-inline-flex">
-          <mat-icon aria-hidden="false" aria-label="Expenses nav list item icon">paid</mat-icon>
+          <mat-icon aria-hidden="false" aria-label="Expenses nav list item icon"
+            >paid</mat-icon
+          >
           <span>Expenses</span>
         </div>
       </a>
-      <a mat-list-item routerLink="categories" routerLinkActive
-         #routerLinkActiveInstance3="routerLinkActive"
-         [class.list-item-active]="routerLinkActiveInstance3.isActive">
+      <a
+        mat-list-item
+        routerLink="categories"
+        routerLinkActive
+        #routerLinkActiveInstance3="routerLinkActive"
+        [class.list-item-active]="routerLinkActiveInstance3.isActive"
+      >
         <div class="d-inline-flex">
-          <mat-icon aria-hidden="false" aria-label="Categories nav list item icon">category</mat-icon>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Categories nav list item icon"
+            >category</mat-icon
+          >
           <span>Categories</span>
         </div>
       </a>
@@ -42,7 +64,8 @@
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="navigationDrawer.toggle()">
+        (click)="navigationDrawer.toggle()"
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       }
@@ -53,11 +76,21 @@
     </div>
   </mat-sidenav-content>
 
-  <mat-sidenav #formsDrawer
-               class="sidenav-end"
-               position="end"
-               [opened]="sidenavOpened"
-               [mode]="'side'">
-    <ng-container *ngComponentOutlet="currentSideNavContent.component; inputs: currentSideNavContent.inputs"></ng-container>
+  <mat-sidenav
+    #formsDrawer
+    class="sidenav-end"
+    position="end"
+    [opened]="sidenavOpened"
+    [mode]="'side'"
+  >
+    <!-- Need to check for sidenavOpened because [opened]="sidenavOpened" doesn't cause the component to destroy and re-render when we open the drawer again -->
+    @if(sidenavOpened) {
+    <ng-container
+      *ngComponentOutlet="
+        currentSideNavContent.component;
+        inputs: currentSideNavContent.inputs
+      "
+    ></ng-container>
+    }
   </mat-sidenav>
 </mat-sidenav-container>

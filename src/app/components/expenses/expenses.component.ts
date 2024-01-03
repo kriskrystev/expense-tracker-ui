@@ -1,26 +1,25 @@
 import { Component } from '@angular/core';
-import { PageHeaderComponent } from "../ui/page-header/page-header.component";
-import { AppService } from "../../services/app.service";
-import { ExpenseCreateComponent } from "./expense-create/expense-create.component";
+import { PageHeaderComponent } from '../ui/page-header/page-header.component';
+import { AppService } from '../../services/app.service';
+import { ExpenseCreateComponent } from './expense-create/expense-create.component';
 
 @Component({
   selector: 'app-expenses',
   standalone: true,
-  imports: [
-    PageHeaderComponent
-  ],
+  imports: [PageHeaderComponent],
   templateUrl: './expenses.component.html',
-  styleUrl: './expenses.component.scss'
+  styleUrl: './expenses.component.scss',
 })
 export class ExpensesComponent {
+  constructor(private appService: AppService) {}
 
-  constructor(private appService: AppService) {
-  }
-
-  nextNewEvent() {
-    this.appService.newForm.next({
-      component: ExpenseCreateComponent,
-      inputs: []
-    })
+  openExpenseDrawer() {
+    this.appService.sideNavContent.next({
+      content: {
+        component: ExpenseCreateComponent,
+        inputs: [],
+      },
+      open: true,
+    });
   }
 }

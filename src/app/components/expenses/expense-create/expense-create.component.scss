@@ -1,0 +1,13 @@
+mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  resize: none;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+}

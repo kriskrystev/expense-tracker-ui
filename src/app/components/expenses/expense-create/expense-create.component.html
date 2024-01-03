@@ -1,1 +1,62 @@
-<p>expense-create works!</p>
+<h1>Create Expense</h1>
+
+<form *ngIf="form" [formGroup]="form">
+  <mat-form-field color="accent" appearance="outline">
+    <mat-label>Amount</mat-label>
+    <input
+      matInput
+      placeholder="Ex. 12"
+      type="number"
+      [errorStateMatcher]="matcher"
+      [formControl]="form.get('amount')"
+    />
+    <mat-error>
+      <app-form-field-error-message
+        [control]="form.controls['amount']"
+        [isErrorState]="matcher.isErrorState(form.controls['amount'], form)"
+      ></app-form-field-error-message>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field color="accent" appearance="outline">
+    <mat-label>Category</mat-label>
+
+    <mat-select name="cateogory" [formControl]="form.get('categoryId')">
+      @for(category of categories(); track category.id) {
+      <mat-option [value]="category.id">{{ category.name }}</mat-option>
+      }
+    </mat-select>
+
+    <mat-error>
+      <app-form-field-error-message
+        [control]="form.controls['categoryId']"
+        [isErrorState]="matcher.isErrorState(form.controls['categoryId'], form)"
+      ></app-form-field-error-message>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field color="accent" appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      placeholder="Ex. Got some Starbucks"
+      [errorStateMatcher]="matcher"
+      [formControl]="form.get('description')"
+      [resize]="false"
+      rows="5"
+    ></textarea>
+    <mat-error>
+      <app-form-field-error-message
+        [control]="form.controls['description']"
+        [isErrorState]="
+          matcher.isErrorState(form.controls['description'], form)
+        "
+      ></app-form-field-error-message>
+    </mat-error>
+  </mat-form-field>
+</form>
+
+<div class="buttons-container">
+  <button mat-flat-button color="accent" (click)="closeDrawer()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="confirm()">Save</button>
+</div>

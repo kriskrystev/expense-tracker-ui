@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject } from "rxjs";
+import { Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppService {
-  newForm = new Subject();
+  sideNavContent = new Subject<{ content?: any; open: boolean }>();
 
-  constructor() { }
+  constructor() {}
 }
