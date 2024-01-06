@@ -19,6 +19,7 @@ import { Order } from '../../../core/enums/order.enum';
 import { ValidateForm } from '../../../core/decorators/validate-form.decorator';
 import { AppService } from '../../../services/app.service';
 import { ExpenseService } from '../../../services/expense-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 
 const core = [NgIf, FormsModule, ReactiveFormsModule];
@@ -49,7 +50,8 @@ export class ExpenseCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     private expenseService: ExpenseService,
-    private appService: AppService
+    private appService: AppService,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +73,16 @@ export class ExpenseCreateComponent implements OnInit {
     this.expenseService
       .createExpense(this.form.value)
       .pipe(take(1))
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.snackbar.open('Expense record created!', 'ok', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 3000,
+          });
+          this.form.reset();
+        },
+      });
   }
 
   closeDrawer() {
