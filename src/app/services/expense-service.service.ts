@@ -34,6 +34,7 @@ export class ExpenseService {
       .appendPage(pageOptionsDto.page)
       .appendSkip(pageOptionsDto.skip)
       .appendTake(pageOptionsDto.take)
+      .append('explode', true)
       .build();
 
     return this.#http

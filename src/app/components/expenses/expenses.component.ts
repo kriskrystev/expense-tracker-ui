@@ -6,13 +6,14 @@ import { ExpenseService } from '../../services/expense-service.service';
 import { PageOptionsDto } from '../../core/dto/page-options.dto';
 import { Order } from '../../core/enums/order.enum';
 import { take } from 'rxjs';
+import { ExpensesTableComponent } from './expenses-table/expenses-table.component';
 
 @Component({
   selector: 'app-expenses',
   standalone: true,
-  imports: [PageHeaderComponent],
   templateUrl: './expenses.component.html',
   styleUrl: './expenses.component.scss',
+  imports: [PageHeaderComponent, ExpensesTableComponent],
 })
 export class ExpensesComponent implements OnInit {
   constructor(
