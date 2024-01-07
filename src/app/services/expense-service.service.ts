@@ -14,7 +14,7 @@ import { CreateExpenseResponseDto } from '../models/expenses/response/create-exp
 export class ExpenseService {
   expenses = signal<CreateExpenseResponseDto[]>([]);
   expensesPageInfo = signal<PageMetaDto>({
-    take: 10,
+    take: 5,
     page: 1,
     itemCount: 0,
     pageCount: 0,

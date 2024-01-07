@@ -3,11 +3,12 @@
   [showNewButton]="true"
   (onNewClicked)="openCreateDialog()"
 >
+  <!-- TODO: extract config for page size options -->
   <mat-paginator
     (page)="handlePageEvent($event)"
     [length]="categoriesPageInfo().itemCount"
     [pageSize]="categoriesPageInfo().take"
-    [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageSizeOptions]="[5, 10, 15]"
     [showFirstLastButtons]="true"
     aria-label="Select page"
   >
