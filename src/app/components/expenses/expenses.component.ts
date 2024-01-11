@@ -7,7 +7,6 @@ import { PageOptionsDto } from '../../core/dto/page-options.dto';
 import { Order } from '../../core/enums/order.enum';
 import { take } from 'rxjs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { CommonModule } from '@angular/common';
 import { ExpenseListItemComponent } from './expense-list-item/expense-list-item.component';
 @Component({
@@ -49,6 +48,10 @@ export class ExpensesComponent implements OnInit {
   }
 
   handlePageEvent(event: PageEvent) {
-    console.log(event);
+    this.expensesService
+      .getAllExpenses(
+        new PageOptionsDto(Order.DESC, event.pageIndex + 1, event.pageSize)
+      )
+      .subscribe();
   }
 }

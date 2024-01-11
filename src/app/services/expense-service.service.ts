@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { PageMetaDto } from '../core/dto/page-meta.dto';
 import { CreateExpenseRequestDto } from '../models/expenses/request/create-expense.dto';
-import { Observable, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { PageOptionsDto } from '../core/dto/page-options.dto';
 import { PageDto } from '../core/dto/page.dto';
 import { HttpPageParamsBuilder } from '../core/builders/http-page-params.builder';
 import { CreateExpenseResponseDto } from '../models/expenses/response/create-expense.dto';
+import { Order } from '../core/enums/order.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -51,14 +52,12 @@ export class ExpenseService {
 
   createExpense(
     payload: CreateExpenseRequestDto
-  ): Observable<CreateExpenseResponseDto> {
+  ): Observable<PageDto<CreateExpenseResponseDto>> {
     return this.#http
       .post<CreateExpenseResponseDto>(`${this.#url}/expense`, payload)
       .pipe(
-        tap((expense: CreateExpenseResponseDto) => {
-          this.expenses.update((values: CreateExpenseResponseDto[]) => {
-            return [...values, expense];
-          });
+        switchMap(() => {
+          return this.getAllExpenses(new PageOptionsDto(Order.DESC));
         })
       );
   }
