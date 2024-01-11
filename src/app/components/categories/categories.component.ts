@@ -11,9 +11,9 @@ import { CategoryCreateComponent } from './category-create/category-create.compo
 import { MatDialog } from '@angular/material/dialog';
 import { NgFor } from '@angular/common';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
-import { Category } from '../../models/categories/response/read-category.dto';
 import { PageOptionsDto } from '../../core/dto/page-options.dto';
 import { Order } from '../../core/enums/order.enum';
+import { CategoryUi } from '../../models/categories/ui/category';
 
 const coreImports = [NgFor];
 
@@ -51,7 +51,7 @@ export class CategoriesComponent implements OnInit {
     this.#categoriesService.removeCategory(id).subscribe();
   }
 
-  openEditDialog(category: Category): void {
+  openEditDialog(category: CategoryUi): void {
     this.#dialog.open(CategoryEditComponent, {
       data: {
         ...category,

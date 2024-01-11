@@ -18,7 +18,6 @@ import {
 import { CategoryService } from '../../../services/category.service';
 import { take } from 'rxjs';
 import { ValidateForm } from '../../../core/decorators/validate-form.decorator';
-import { Category } from '../../../models/categories/response/read-category.dto';
 import { NgIf } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormFieldErrorMessageComponent } from '../../ui/form-field-error-message/form-field-error-message.component';
 import { ERROR_STATE_MATCHER_TOKEN } from '../../../core/utils/error-state-matcher';
 import { CategoryNameAsyncValidator } from '../../../core/validation/async-validator';
+import { CategoryUi } from '../../../models/categories/ui/category';
 
 @Component({
   selector: 'app-category-edit',
@@ -57,7 +57,7 @@ export class CategoryEditComponent {
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     private categoryNameAsyncValidator: CategoryNameAsyncValidator,
-    @Inject(MAT_DIALOG_DATA) public data: Category
+    @Inject(MAT_DIALOG_DATA) public data: CategoryUi
   ) {}
 
   ngOnInit(): void {

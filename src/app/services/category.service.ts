@@ -1,5 +1,4 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Category } from '../models/categories/response/read-category.dto';
 import { CreateCategoryDto } from '../models/categories/request/create-category.dto';
 import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, tap } from 'rxjs';
@@ -9,12 +8,13 @@ import { PageDto } from '../core/dto/page.dto';
 import { HttpPageParamsBuilder } from '../core/builders/http-page-params.builder';
 import { PageMetaDto } from '../core/dto/page-meta.dto';
 import { Order } from '../core/enums/order.enum';
+import { CreateCategoryResponseDto } from '../models/categories/response/read-category.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  categories = signal<Category[]>([]);
+  categories = signal<CreateCategoryResponseDto[]>([]);
   categoriesPageInfo = signal<PageMetaDto>({
     take: 5,
     page: 1,
@@ -29,7 +29,7 @@ export class CategoryService {
 
   getCategoriesPage(
     pageOptionsDto: PageOptionsDto
-  ): Observable<PageDto<Category>> {
+  ): Observable<PageDto<CreateCategoryResponseDto>> {
     const httpPageParamsBuilder = new HttpPageParamsBuilder();
     const params = httpPageParamsBuilder
       .appendOrder(pageOptionsDto.order)
@@ -39,29 +39,35 @@ export class CategoryService {
       .build();
 
     return this.#http
-      .get<PageDto<Category>>(`${this.#url}/category`, { params: params })
+      .get<PageDto<CreateCategoryResponseDto>>(`${this.#url}/category`, {
+        params: params,
+      })
       .pipe(
-        tap((pageDto: PageDto<Category>) => {
+        tap((pageDto: PageDto<CreateCategoryResponseDto>) => {
           this.categories.set(pageDto.data);
           this.categoriesPageInfo.set(pageDto.meta);
         })
       );
   }
 
-  addCategory(payload: CreateCategoryDto): Observable<PageDto<Category>> {
-    return this.#http.post<Category>(`${this.#url}/category`, payload).pipe(
-      switchMap(() => {
-        return this.getCategoriesPage(new PageOptionsDto(Order.DESC));
-      })
-    );
+  addCategory(
+    payload: CreateCategoryDto
+  ): Observable<PageDto<CreateCategoryResponseDto>> {
+    return this.#http
+      .post<CreateCategoryResponseDto>(`${this.#url}/category`, payload)
+      .pipe(
+        switchMap(() => {
+          return this.getCategoriesPage(new PageOptionsDto(Order.DESC));
+        })
+      );
   }
 
   updateCategory(id: string, payload: UpdateCategoryDto) {
     return this.#http
-      .patch<Category>(`${this.#url}/category/${id}`, payload)
+      .patch<CreateCategoryResponseDto>(`${this.#url}/category/${id}`, payload)
       .pipe(
         tap((category) => {
-          this.categories.update((values: Category[]) => {
+          this.categories.update((values: CreateCategoryResponseDto[]) => {
             return values.map((element) => {
               if (element.id === id) {
                 return { ...category };
