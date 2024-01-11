@@ -7,13 +7,20 @@ import { PageOptionsDto } from '../../core/dto/page-options.dto';
 import { Order } from '../../core/enums/order.enum';
 import { take } from 'rxjs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { CommonModule } from '@angular/common';
+import { ExpenseListItemComponent } from './expense-list-item/expense-list-item.component';
 @Component({
   selector: 'app-expenses',
   standalone: true,
   templateUrl: './expenses.component.html',
   styleUrl: './expenses.component.scss',
-  imports: [PageHeaderComponent, MatPaginatorModule],
+  imports: [
+    CommonModule,
+    PageHeaderComponent,
+    ExpenseListItemComponent,
+    MatPaginatorModule,
+  ],
 })
 export class ExpensesComponent implements OnInit {
   expenses = this.expensesService.expenses;

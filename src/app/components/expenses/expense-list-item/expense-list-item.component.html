@@ -1,0 +1,14 @@
+<mat-accordion class="expense" displayMode="flat" multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ expense.category?.name }}</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-panel-description>
+      Date: {{ expense.date | date : "short" }}
+    </mat-panel-description>
+    <mat-panel-description>
+      Description: {{ expense.description }}
+    </mat-panel-description>
+  </mat-expansion-panel>
+</mat-accordion>

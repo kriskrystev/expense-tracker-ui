@@ -16,8 +16,7 @@
 
 <div class="expenses">
   @for(expense of expenses(); track expense.id) {
-  <!-- expansion panel will go here... -->
-  <div>{{ expense.category?.name }}</div>
+  <app-expense-list-item [expense]="expense"></app-expense-list-item>
   } @empty {
   <p>
     You don't have any expenses logged yet. Click
