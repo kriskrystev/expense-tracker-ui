@@ -2,12 +2,13 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Category } from '../models/categories/response/read-category.dto';
 import { CreateCategoryDto } from '../models/categories/request/create-category.dto';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { UpdateCategoryDto } from '../models/categories/request/update-category.dto';
 import { PageOptionsDto } from '../core/dto/page-options.dto';
 import { PageDto } from '../core/dto/page.dto';
 import { HttpPageParamsBuilder } from '../core/builders/http-page-params.builder';
 import { PageMetaDto } from '../core/dto/page-meta.dto';
+import { Order } from '../core/enums/order.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ import { PageMetaDto } from '../core/dto/page-meta.dto';
 export class CategoryService {
   categories = signal<Category[]>([]);
   categoriesPageInfo = signal<PageMetaDto>({
-    take: 10,
+    take: 5,
     page: 1,
     itemCount: 0,
     pageCount: 0,
@@ -26,7 +27,7 @@ export class CategoryService {
   #http = inject(HttpClient);
   #url = 'http://localhost:3000/api';
 
-  getAllCategories(
+  getCategoriesPage(
     pageOptionsDto: PageOptionsDto
   ): Observable<PageDto<Category>> {
     const httpPageParamsBuilder = new HttpPageParamsBuilder();
@@ -47,12 +48,10 @@ export class CategoryService {
       );
   }
 
-  addCategory(payload: CreateCategoryDto): Observable<Category> {
+  addCategory(payload: CreateCategoryDto): Observable<PageDto<Category>> {
     return this.#http.post<Category>(`${this.#url}/category`, payload).pipe(
-      tap((category: Category) => {
-        this.categories.update((values: Category[]) => {
-          return [...values, category];
-        });
+      switchMap(() => {
+        return this.getCategoriesPage(new PageOptionsDto(Order.DESC));
       })
     );
   }
@@ -76,10 +75,8 @@ export class CategoryService {
 
   removeCategory(id: string) {
     return this.#http.delete(`${this.#url}/category/${id}`).pipe(
-      tap(() => {
-        this.categories.update((values) => {
-          return values.filter((value) => value.id !== id);
-        });
+      switchMap(() => {
+        return this.getCategoriesPage(new PageOptionsDto(Order.DESC));
       })
     );
   }

@@ -62,7 +62,7 @@ export class ExpenseCreateComponent implements OnInit {
     });
 
     this.categoryService
-      .getAllCategories(
+      .getCategoriesPage(
         new PageOptionsDto(Order.DESC, 1, Number.MAX_SAFE_INTEGER)
       )
       .subscribe();

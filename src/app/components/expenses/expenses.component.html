@@ -1,7 +1,30 @@
 <app-page-header
-  page="Expenses"
-  (onNewClicked)="openExpenseDrawer()"
+  [page]="'Expenses'"
   [showNewButton]="true"
-></app-page-header>
+  (onNewClicked)="openExpenseDrawer()"
+>
+  <mat-paginator
+    (page)="handlePageEvent($event)"
+    [length]="expensesPageInfo().itemCount"
+    [pageSize]="expensesPageInfo().take"
+    [pageSizeOptions]="[5, 10, 15]"
+    [showFirstLastButtons]="true"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</app-page-header>
 
-<app-expenses-table></app-expenses-table>
+<div class="expenses">
+  @for(expense of expenses(); track expense.id) {
+  <!-- expansion panel will go here... -->
+  <div>{{ expense.category?.name }}</div>
+  } @empty {
+  <p>
+    You don't have any expenses logged yet. Click
+    <button mat-button color="primary" (click)="openExpenseDrawer()">
+      here
+    </button>
+    to create one.
+  </p>
+  }
+</div>

@@ -43,7 +43,7 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.#categoriesService
-      .getAllCategories(new PageOptionsDto(Order.DESC))
+      .getCategoriesPage(new PageOptionsDto(Order.DESC))
       .subscribe();
   }
 
@@ -70,7 +70,7 @@ export class CategoriesComponent implements OnInit {
 
   handlePageEvent(event: PageEvent) {
     this.#categoriesService
-      .getAllCategories(
+      .getCategoriesPage(
         new PageOptionsDto(Order.DESC, event.pageIndex + 1, event.pageSize)
       )
       .subscribe();
