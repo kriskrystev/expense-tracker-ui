@@ -14,9 +14,14 @@
   </mat-paginator>
 </app-page-header>
 
-<div class="expenses">
+<div class="expand-collapse-actions">
+  <button mat-raised-button (click)="openAll()">Expand All</button>
+  <button mat-raised-button (click)="collapseAll()">Collapse All</button>
+</div>
+
+<mat-accordion class="expenses" displayMode="flat" multi>
   @for(expense of expenses(); track expense.id) {
-  <app-expense-list-item [expense]="expense"></app-expense-list-item>
+  <app-expense-list-item #accordion [expense]="expense"></app-expense-list-item>
   } @empty {
   <p>
     You don't have any expenses logged yet. Click
@@ -26,4 +31,4 @@
     to create one.
   </p>
   }
-</div>
+</mat-accordion>
