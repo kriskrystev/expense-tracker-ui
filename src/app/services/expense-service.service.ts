@@ -61,4 +61,8 @@ export class ExpenseService {
         })
       );
   }
+
+  removeExpense(id: string) {
+    return this.#http.delete(`${this.#url}/expense/${id}`);
+  }
 }
