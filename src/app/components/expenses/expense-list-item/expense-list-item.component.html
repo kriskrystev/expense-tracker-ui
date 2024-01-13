@@ -9,4 +9,15 @@
   <mat-panel-description>
     Description: {{ expense.description }}
   </mat-panel-description>
+
+  <mat-action-row>
+    <button mat-button (click)="onEdit()">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </button>
+    <button mat-button (click)="onDelete()">
+      <mat-icon>delete_forever</mat-icon>
+      Delete
+    </button>
+  </mat-action-row>
 </mat-expansion-panel>

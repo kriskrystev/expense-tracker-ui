@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
+  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
-} from "@angular/material/dialog";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -25,13 +26,19 @@ import { MatButtonModule } from "@angular/material/button";
     MatDialogClose,
   ],
   templateUrl: './confirmation-dialog.component.html',
-  styleUrl: './confirmation-dialog.component.scss'
+  styleUrl: './confirmation-dialog.component.scss',
 })
 export class ConfirmationDialogComponent {
+  title: string = '';
+  textPrompt: string = '';
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmationDialogComponent>
+    public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public dialogData: { title: string; textPrompt: string }
   ) {
+    this.title = dialogData.title;
+    this.textPrompt = dialogData.textPrompt;
   }
 
   cancel(): void {
@@ -39,6 +46,6 @@ export class ConfirmationDialogComponent {
   }
 
   confirm(): void {
-    this.dialogRef.close(true)
+    this.dialogRef.close(true);
   }
 }

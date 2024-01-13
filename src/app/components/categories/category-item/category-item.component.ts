@@ -8,13 +8,9 @@ import {
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../../ui/confirmation-dialog/confirmation-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { Confirmable } from '../../../core/decorators/confirmable.decorator';
 import { MatDividerModule } from '@angular/material/divider';
-import { CategoryCreateComponent } from '../category-create/category-create.component';
 import { CategoryUi } from '../../../models/categories/ui/category';
 
 @Component({
@@ -32,7 +28,10 @@ export class CategoryItemComponent {
 
   #environmentInjector = inject(EnvironmentInjector);
 
-  @Confirmable()
+  @Confirmable({
+    title: 'Delete category',
+    textPrompt: 'Are you sure you wish to delete this category?',
+  })
   deleteCategory() {
     this.onCategoryDeleteClicked.emit(this.data.id);
   }
