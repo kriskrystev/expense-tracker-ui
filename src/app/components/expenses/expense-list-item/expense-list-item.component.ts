@@ -28,10 +28,8 @@ export class ExpenseListItemComponent {
     textPrompt: 'Are you sure you wish to delete this expense?',
   })
   onDelete() {
-    // TODO: show success/error messages
     this.#expenseService.removeExpense(this.expense.id).subscribe({
       next: () => console.log('deleted'),
-      error: () => console.log('error'),
     });
   }
 

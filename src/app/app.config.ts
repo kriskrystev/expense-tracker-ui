@@ -1,9 +1,21 @@
-import { ApplicationConfig } from '@angular/core';
+import {
+  ApplicationConfig,
+  ErrorHandler,
+  importProvidersFrom,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import {
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptors,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { GlobalErrorHandler } from './core/error-handling/global-error-handler';
+import { HttpLoadingInterceptor } from './core/error-handling/http-loading.interceptor';
+import { HttpErrorInterceptor } from './core/error-handling/http-error.interceptor';
 
 /**
  * Overrides the default toJSON implemenation, which is using the toISOString() method.
@@ -19,5 +31,16 @@ Date.prototype.toJSON = function () {
 };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHttpClient(), provideRouter(routes), provideAnimations()],
+  providers: [
+    provideRouter(routes),
+    importProvidersFrom(HttpClientModule),
+    provideHttpClient(
+      withInterceptors([HttpErrorInterceptor, HttpLoadingInterceptor])
+    ),
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
+    provideAnimations(),
+  ],
 };
