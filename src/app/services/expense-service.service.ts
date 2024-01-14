@@ -63,6 +63,10 @@ export class ExpenseService {
   }
 
   removeExpense(id: string) {
-    return this.#http.delete(`${this.#url}/expense/${id}`);
+    return this.#http.delete(`${this.#url}/expense/${id}`).pipe(
+      switchMap(() => {
+        return this.getAllExpenses(new PageOptionsDto(Order.DESC));
+      })
+    );
   }
 }

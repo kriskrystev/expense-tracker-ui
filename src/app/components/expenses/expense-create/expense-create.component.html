@@ -35,6 +35,39 @@
     </mat-error>
   </mat-form-field>
 
+  <mat-form-field
+    color="accent"
+    appearance="outline"
+    style="margin-bottom: 1rem"
+  >
+    <mat-label>Choose a date</mat-label>
+    <input
+      matInput
+      [matDatepicker]="datepicker"
+      [formControl]="form.get('date')"
+    />
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="datepicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #datepicker>
+      <mat-datepicker-actions>
+        <button mat-button matDatepickerCancel>Cancel</button>
+        <button mat-raised-button color="primary" matDatepickerApply>
+          Apply
+        </button>
+      </mat-datepicker-actions>
+    </mat-datepicker>
+
+    <mat-error>
+      <app-form-field-error-message
+        [control]="form.controls['date']"
+        [isErrorState]="matcher.isErrorState(form.controls['date'], form)"
+      ></app-form-field-error-message>
+    </mat-error>
+  </mat-form-field>
+
   <mat-form-field color="accent" appearance="outline">
     <mat-label>Description</mat-label>
     <textarea

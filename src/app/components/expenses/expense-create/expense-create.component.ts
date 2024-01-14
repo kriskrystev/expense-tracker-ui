@@ -21,6 +21,8 @@ import { AppService } from '../../../services/app.service';
 import { ExpenseService } from '../../../services/expense-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 const core = [NgIf, FormsModule, ReactiveFormsModule];
 
@@ -29,6 +31,8 @@ const material = [
   MatSelectModule,
   MatInputModule,
   MatButtonModule,
+  MatNativeDateModule,
+  MatDatepickerModule,
 ];
 
 const internal = [FormFieldErrorMessageComponent];
@@ -59,8 +63,8 @@ export class ExpenseCreateComponent implements OnInit {
       description: ['', Validators.required],
       amount: ['', [Validators.required, Validators.min(0)]],
       categoryId: ['', Validators.required],
+      date: ['', Validators.required],
     });
-
     this.categoryService
       .getCategoriesPage(
         new PageOptionsDto(Order.DESC, 1, Number.MAX_SAFE_INTEGER)
