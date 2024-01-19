@@ -80,17 +80,13 @@
     #formsDrawer
     class="sidenav-end"
     position="end"
-    [opened]="sidenavOpened"
+    [opened]="(componentData$ | async).opened"
     [mode]="'side'"
   >
-    <!-- Need to check for sidenavOpened because [opened]="sidenavOpened" doesn't cause the component to destroy and re-render when we open the drawer again -->
-    @if(sidenavOpened) {
-    <ng-container
-      *ngComponentOutlet="
-        currentSideNavContent.component;
-        inputs: currentSideNavContent.inputs
-      "
-    ></ng-container>
-    }
+    <div *ngIf="componentData$ | async as cmpData">
+      <ng-container
+        *ngComponentOutlet="cmpData.component; inputs: cmpData.inputs"
+      ></ng-container>
+    </div>
   </mat-sidenav>
 </mat-sidenav-container>

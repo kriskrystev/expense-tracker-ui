@@ -1,13 +1,5 @@
-import {
-  Component,
-  EnvironmentInjector,
-  OnInit,
-  ViewChild,
-  inject,
-  runInInjectionContext,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PageHeaderComponent } from '../ui/page-header/page-header.component';
-import { AppService } from '../../services/app.service';
 import { ExpenseCreateComponent } from './expense-create/expense-create.component';
 import { ExpenseService } from '../../services/expense-service.service';
 import { PageOptionsDto } from '../../core/dto/page-options.dto';
@@ -16,13 +8,9 @@ import { take } from 'rxjs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { ExpenseListItemComponent } from './expense-list-item/expense-list-item.component';
-import {
-  MAT_ACCORDION,
-  MatAccordion,
-  MatExpansionModule,
-} from '@angular/material/expansion';
-import { CDK_ACCORDION } from '@angular/cdk/accordion';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
+import { SidenavService } from '../../core/services/sidenav.service';
 @Component({
   selector: 'app-expenses',
   standalone: true,
@@ -44,8 +32,8 @@ export class ExpensesComponent implements OnInit {
   expensesPageInfo = this.expensesService.expensesPageInfo;
 
   constructor(
-    private appService: AppService,
-    private expensesService: ExpenseService
+    private expensesService: ExpenseService,
+    private sidenavService: SidenavService
   ) {}
 
   ngOnInit(): void {
@@ -56,12 +44,9 @@ export class ExpensesComponent implements OnInit {
   }
 
   openExpenseDrawer() {
-    this.appService.sideNavContent.next({
-      content: {
-        component: ExpenseCreateComponent,
-        inputs: [],
-      },
-      open: true,
+    this.sidenavService.open({
+      component: ExpenseCreateComponent,
+      inputs: [],
     });
   }
 

@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe, NgComponentOutlet } from '@angular/common';
+import { AsyncPipe, CommonModule, NgComponentOutlet } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable, Subject, tap } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { RouterModule } from '@angular/router';
-import { AppService } from '../../../services/app.service';
+import { SidenavService } from '../../../core/services/sidenav.service';
 
 @Component({
   selector: 'app-layout',
@@ -17,6 +17,7 @@ import { AppService } from '../../../services/app.service';
   styleUrls: ['./layout.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -27,10 +28,12 @@ import { AppService } from '../../../services/app.service';
     RouterModule,
   ],
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
   private breakpointObserver = inject(BreakpointObserver);
   sidenavOpened = false;
   currentSideNavContent: any = {};
+
+  componentData$ = this.sidenavService.componentData$;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -39,17 +42,5 @@ export class LayoutComponent implements OnInit {
       shareReplay()
     );
 
-  constructor(private appService: AppService) {}
-
-  ngOnInit(): void {
-    // TODO: make a service for managing sidenavs
-    this.appService.sideNavContent
-      .pipe(
-        tap((value: { content?: any; open: boolean }) => {
-          this.sidenavOpened = value.open;
-          this.currentSideNavContent = value.content;
-        })
-      )
-      .subscribe();
-  }
+  constructor(private sidenavService: SidenavService) {}
 }

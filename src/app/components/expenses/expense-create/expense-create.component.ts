@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CloseDrawerDirective } from '../../../core/directives/close-drawer.directive';
 
 const core = [NgIf, FormsModule, ReactiveFormsModule];
 
@@ -35,7 +36,7 @@ const material = [
   MatDatepickerModule,
 ];
 
-const internal = [FormFieldErrorMessageComponent];
+const internal = [FormFieldErrorMessageComponent, CloseDrawerDirective];
 
 @Component({
   selector: 'app-expense-create',
@@ -54,7 +55,6 @@ export class ExpenseCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     private expenseService: ExpenseService,
-    private appService: AppService,
     private snackbar: MatSnackBar
   ) {}
 
@@ -87,12 +87,5 @@ export class ExpenseCreateComponent implements OnInit {
           this.form.reset();
         },
       });
-  }
-
-  closeDrawer() {
-    this.appService.sideNavContent.next({
-      content: null,
-      open: false,
-    });
   }
 }
