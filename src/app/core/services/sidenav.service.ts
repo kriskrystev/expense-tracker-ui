@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 export interface SidenavContent {
   component: any;
-  inputs?: [];
+  inputs?: {};
   opened?: boolean;
 }
 
@@ -17,7 +17,11 @@ export class SidenavService {
   });
 
   open(value: SidenavContent) {
-    this.componentData$.next({ component: value.component, opened: true });
+    this.componentData$.next({
+      component: value.component,
+      opened: true,
+      inputs: value.inputs,
+    });
   }
 
   close() {

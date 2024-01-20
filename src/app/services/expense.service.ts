@@ -8,6 +8,7 @@ import { PageDto } from '../core/dto/page.dto';
 import { HttpPageParamsBuilder } from '../core/builders/http-page-params.builder';
 import { CreateExpenseResponseDto } from '../models/expenses/response/create-expense.dto';
 import { Order } from '../core/enums/order.enum';
+import { UpdateExpenseRequestDto } from '../models/expenses/request/update-expense.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +61,12 @@ export class ExpenseService {
           return this.getAllExpenses(new PageOptionsDto(Order.DESC));
         })
       );
+  }
+
+  updateExpense(payload: UpdateExpenseRequestDto) {
+    return this.#http
+      .patch(`${this.#url}/expense/${payload.id}`, payload)
+      .pipe(tap((data) => console.log(data)));
   }
 
   removeExpense(id: string) {

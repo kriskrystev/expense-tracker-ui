@@ -10,7 +10,6 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: any): void {
-    console.log('handleError');
     if (!(error instanceof HttpErrorResponse)) {
       error = error.rejection;
     }

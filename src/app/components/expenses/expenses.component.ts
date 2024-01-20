@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PageHeaderComponent } from '../ui/page-header/page-header.component';
 import { ExpenseCreateComponent } from './expense-create/expense-create.component';
-import { ExpenseService } from '../../services/expense-service.service';
+import { ExpenseService } from '../../services/expense.service';
 import { PageOptionsDto } from '../../core/dto/page-options.dto';
 import { Order } from '../../core/enums/order.enum';
 import { take } from 'rxjs';
