@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector, inject, Inject } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -69,16 +69,22 @@ export class CategoryEditComponent {
     const nameFormControl = new FormControl(this.data.name || '', {
       validators: [
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(2),
         Validators.maxLength(255),
       ],
       asyncValidators: [asyncValidator],
-      // asyncValidators: [asyncValidator()],
     });
 
     this.form = this.formBuilder.group({
       name: nameFormControl,
-      description: [this.data.description || '', Validators.required],
+      description: [
+        this.data.description,
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(255),
+        ],
+      ],
     });
   }
 

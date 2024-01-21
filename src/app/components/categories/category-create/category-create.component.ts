@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   MatDialogActions,
   MatDialogClose,
@@ -60,7 +60,7 @@ export class CategoryCreateComponent implements OnInit {
     const nameFormControl = new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(2),
         Validators.maxLength(255),
       ],
       asyncValidators: [this.categoryNameAsyncValidator.validate.bind(this)],
@@ -71,7 +71,7 @@ export class CategoryCreateComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(1),
+          Validators.minLength(2),
           Validators.maxLength(255),
         ],
       ],

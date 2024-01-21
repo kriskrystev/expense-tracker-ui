@@ -1,7 +1,7 @@
-import { ErrorRendererStrategy } from "../error-renderer.strategy";
+import { ErrorRendererStrategy } from '../error-renderer.strategy';
 
 export class RequiredErrorRendererStrategy implements ErrorRendererStrategy {
   execute(): string {
-    return "This field is required";
+    return 'This field is required';
   }
 }

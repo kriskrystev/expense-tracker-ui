@@ -13,6 +13,7 @@
     <mat-error>
       <app-form-field-error-message
         [control]="form.controls['amount']"
+        [controlErrors]="form.controls['amount'].errors"
         [isErrorState]="matcher.isErrorState(form.controls['amount'], form)"
       ></app-form-field-error-message>
     </mat-error>
@@ -30,6 +31,7 @@
     <mat-error>
       <app-form-field-error-message
         [control]="form.controls['categoryId']"
+        [controlErrors]="form.controls['categoryId'].errors"
         [isErrorState]="matcher.isErrorState(form.controls['categoryId'], form)"
       ></app-form-field-error-message>
     </mat-error>
@@ -63,6 +65,7 @@
     <mat-error>
       <app-form-field-error-message
         [control]="form.controls['date']"
+        [controlErrors]="form.controls['date'].errors"
         [isErrorState]="matcher.isErrorState(form.controls['date'], form)"
       ></app-form-field-error-message>
     </mat-error>
@@ -81,6 +84,8 @@
     <mat-error>
       <app-form-field-error-message
         [control]="form.controls['description']"
+        [controlErrors]="form.controls['description'].errors"
+        [validationParameters]="{ maxlength: 255 }"
         [isErrorState]="
           matcher.isErrorState(form.controls['description'], form)
         "

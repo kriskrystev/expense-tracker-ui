@@ -17,6 +17,8 @@
       <mat-error>
         <app-form-field-error-message
           [control]="form.controls['name']"
+          [controlErrors]="form.controls['name'].errors"
+          [validationParameters]="{ maxlength: 255, minlength: 2 }"
           [isErrorState]="matcher.isErrorState(form.controls['name'], form)"
         ></app-form-field-error-message>
       </mat-error>
@@ -33,6 +35,8 @@
       <mat-error>
         <app-form-field-error-message
           [control]="form.controls['description']"
+          [controlErrors]="form.controls['description'].errors"
+          [validationParameters]="{ maxlength: 255, minlength: 2 }"
           [isErrorState]="
             matcher.isErrorState(form.controls['description'], form)
           "

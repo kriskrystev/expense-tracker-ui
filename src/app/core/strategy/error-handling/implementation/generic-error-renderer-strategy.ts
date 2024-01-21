@@ -1,7 +1,7 @@
-import { ErrorRendererStrategy } from "../error-renderer.strategy";
+import { ErrorRendererStrategy } from '../error-renderer.strategy';
 
 export class GenericErrorRendererStrategy implements ErrorRendererStrategy {
   execute(): string {
-    return "This field is invalid";
+    return 'This field is invalid';
   }
 }
