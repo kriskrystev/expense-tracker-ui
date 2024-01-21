@@ -1,4 +1,4 @@
-<mat-expansion-panel>
+<mat-expansion-panel expanded="true">
   <mat-expansion-panel-header>
     <mat-panel-title>{{ expense.category?.name }}</mat-panel-title>
   </mat-expansion-panel-header>
@@ -6,7 +6,7 @@
   <mat-panel-description>
     Date: {{ expense.date | date : "short" }}
   </mat-panel-description>
-  <mat-panel-description>
+  <mat-panel-description *ngIf="expense.description.length">
     Description: {{ expense.description }}
   </mat-panel-description>
 

@@ -60,7 +60,7 @@ export class ExpenseCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      description: ['', Validators.required],
+      description: ['', [Validators.maxLength(255)]],
       amount: ['', [Validators.required, Validators.min(0)]],
       categoryId: ['', Validators.required],
       date: ['', Validators.required],

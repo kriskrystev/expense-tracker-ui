@@ -61,6 +61,7 @@ export class ExpensesComponent implements OnInit {
   openAll() {
     this.accordion.openAll();
   }
+
   collapseAll() {
     this.accordion.closeAll();
   }
