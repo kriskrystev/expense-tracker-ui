@@ -62,7 +62,7 @@ export class ExpenseEditComponent {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      description: [this.data.description, Validators.required],
+      description: [this.data.description],
       amount: [this.data.amount, [Validators.required, Validators.min(0)]],
       categoryId: [this.data.categoryId, Validators.required],
       date: [new Date(this.data.date), Validators.required],
