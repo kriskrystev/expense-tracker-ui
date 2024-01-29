@@ -17,14 +17,14 @@ import { CategoryService } from '../../../services/category.service';
 import { PageOptionsDto } from '../../../core/dto/page-options.dto';
 import { Order } from '../../../core/enums/order.enum';
 import { ValidateForm } from '../../../core/decorators/validate-form.decorator';
-import { AppService } from '../../../services/app.service';
 import { ExpenseService } from '../../../services/expense.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { MatNativeDateModule } from '@angular/material/core';
+
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CloseDrawerDirective } from '../../../core/directives/close-drawer.directive';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SidenavService } from '../../../core/services/sidenav.service';
 const core = [NgIf, FormsModule, ReactiveFormsModule];
 
 const material = [
@@ -34,6 +34,7 @@ const material = [
   MatButtonModule,
   MatNativeDateModule,
   MatDatepickerModule,
+  MatCheckboxModule,
 ];
 
 const internal = [FormFieldErrorMessageComponent, CloseDrawerDirective];
@@ -51,11 +52,13 @@ export class ExpenseCreateComponent implements OnInit {
 
   categories = this.categoryService.categories;
 
+  closeOnSubmit = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     private expenseService: ExpenseService,
-    private snackbar: MatSnackBar
+    private sidenavService: SidenavService
   ) {}
 
   ngOnInit(): void {
@@ -73,18 +76,17 @@ export class ExpenseCreateComponent implements OnInit {
   }
 
   @ValidateForm()
-  confirm(): void {
+  public confirm(): void {
     this.expenseService
       .createExpense(this.form.value)
       .pipe(take(1))
       .subscribe({
         next: () => {
-          this.snackbar.open('Expense record created!', 'ok', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            duration: 3000,
-          });
-          this.form.reset();
+          if (this.closeOnSubmit) {
+            this.sidenavService.close();
+          } else {
+            this.form.reset();
+          }
         },
       });
   }

@@ -7,12 +7,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { RouterModule } from '@angular/router';
-import {
-  SidenavContent,
-  SidenavService,
-} from '../../../core/services/sidenav.service';
+import { filter, map, shareReplay, tap } from 'rxjs/operators';
+import { NavigationStart, Router, RouterModule } from '@angular/router';
+import { SidenavService } from '../../../core/services/sidenav.service';
 
 @Component({
   selector: 'app-layout',
@@ -42,5 +39,12 @@ export class LayoutComponent {
       shareReplay()
     );
 
-  constructor(private sidenavService: SidenavService) {}
+  constructor(private sidenavService: SidenavService, private router: Router) {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationStart),
+        tap(() => this.sidenavService.close())
+      )
+      .subscribe();
+  }
 }

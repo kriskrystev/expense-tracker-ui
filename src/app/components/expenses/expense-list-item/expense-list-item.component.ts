@@ -39,7 +39,7 @@ export class ExpenseListItemComponent {
   })
   onDelete() {
     this.#expenseService.removeExpense(this.expense.id).subscribe({
-      next: () => console.log('deleted'),
+      next: () => this.#sidenavService.close(),
     });
   }
 
