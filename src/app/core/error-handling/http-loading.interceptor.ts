@@ -9,7 +9,9 @@ export const HttpLoadingInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     finalize(() => {
-      loadingService.hideDialog();
+      setTimeout(() => {
+        loadingService.hideDialog();
+      }, 500)
     })
   );
 };

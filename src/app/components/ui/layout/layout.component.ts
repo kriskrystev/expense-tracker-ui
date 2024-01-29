@@ -6,10 +6,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable, Subject, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { RouterModule } from '@angular/router';
-import { SidenavService } from '../../../core/services/sidenav.service';
+import {
+  SidenavContent,
+  SidenavService,
+} from '../../../core/services/sidenav.service';
 
 @Component({
   selector: 'app-layout',
@@ -30,9 +33,6 @@ import { SidenavService } from '../../../core/services/sidenav.service';
 })
 export class LayoutComponent {
   private breakpointObserver = inject(BreakpointObserver);
-  sidenavOpened = false;
-  currentSideNavContent: any = {};
-
   componentData$ = this.sidenavService.componentData$;
 
   isHandset$: Observable<boolean> = this.breakpointObserver

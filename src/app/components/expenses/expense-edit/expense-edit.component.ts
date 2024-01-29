@@ -1,4 +1,11 @@
-import { Component, Inject, Input, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,7 +16,6 @@ import {
 import { ERROR_STATE_MATCHER_TOKEN } from '../../../core/utils/error-state-matcher';
 import { CategoryService } from '../../../services/category.service';
 import { ExpenseService } from '../../../services/expense.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageOptionsDto } from '../../../core/dto/page-options.dto';
 import { Order } from '../../../core/enums/order.enum';
 import { ValidateForm } from '../../../core/decorators/validate-form.decorator';
@@ -22,9 +28,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgIf } from '@angular/common';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExpenseUi } from '../../../models/expenses/ui/expense';
 import { take } from 'rxjs';
+import { SidenavService } from '../../../core/services/sidenav.service';
 
 const core = [NgIf, FormsModule, ReactiveFormsModule];
 
@@ -45,7 +51,7 @@ const internal = [FormFieldErrorMessageComponent, CloseDrawerDirective];
   templateUrl: './expense-edit.component.html',
   styleUrl: './expense-edit.component.scss',
 })
-export class ExpenseEditComponent {
+export class ExpenseEditComponent implements OnInit, OnChanges {
   @Input() data!: ExpenseUi;
 
   form!: FormGroup;
@@ -57,8 +63,19 @@ export class ExpenseEditComponent {
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     private expenseService: ExpenseService,
-    private snackbar: MatSnackBar
+    private sidenavService: SidenavService
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'].currentValue && this.form) {
+      this.form.patchValue({
+        description: changes['data'].currentValue.description,
+        amount: changes['data'].currentValue.amount,
+        categoryId: changes['data'].currentValue.categoryId,
+        date: new Date(changes['data'].currentValue.date),
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -76,7 +93,7 @@ export class ExpenseEditComponent {
   }
 
   @ValidateForm()
-  confirm(): void {
+  public confirm(): void {
     this.expenseService
       .updateExpense({
         id: this.data.id,
@@ -85,11 +102,7 @@ export class ExpenseEditComponent {
       .pipe(take(1))
       .subscribe({
         next: () => {
-          this.snackbar.open('Expense record updated!', 'ok', {
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            duration: 3000,
-          });
+          this.sidenavService.close();
         },
       });
   }

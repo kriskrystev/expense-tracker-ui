@@ -16,7 +16,7 @@ export class SidenavService {
     opened: false,
   });
 
-  open(value: SidenavContent) {
+  public open(value: SidenavContent): void {
     this.componentData$.next({
       component: value.component,
       opened: true,
@@ -24,7 +24,7 @@ export class SidenavService {
     });
   }
 
-  close() {
+  public close(): void {
     this.componentData$.next({ component: null, opened: false });
   }
 }
