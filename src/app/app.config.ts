@@ -27,7 +27,7 @@ import { HttpErrorInterceptor } from './core/error-handling/http-error.intercept
  * For the timebeing this will do tho...
  */
 Date.prototype.toJSON = function () {
-  return this.toString();
+  return this.toUTCString();
 };
 
 export const appConfig: ApplicationConfig = {

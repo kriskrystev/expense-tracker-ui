@@ -25,7 +25,7 @@ export class CategoryService {
   });
 
   #http = inject(HttpClient);
-  #url = 'http://localhost:3000/api';
+  #url = 'http://localhost/api';
 
   getCategoriesPage(
     pageOptionsDto: PageOptionsDto

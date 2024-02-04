@@ -28,7 +28,7 @@ export class ExpenseService {
   });
 
   #http = inject(HttpClient);
-  #url = 'http://localhost:3000/api';
+  #url = 'http://localhost/api';
 
   getAllExpenses(
     pageOptionsDto: PageOptionsDto
@@ -57,6 +57,7 @@ export class ExpenseService {
   createExpense(
     payload: CreateExpenseRequestDto
   ): Observable<PageDto<CreateExpenseResponseDto>> {
+    payload.date = new Date(payload.date);
     return this.#http
       .post<CreateExpenseResponseDto>(`${this.#url}/expense`, payload)
       .pipe(
