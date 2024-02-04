@@ -31,9 +31,9 @@ export class NumberCardZeroMargin {
 }
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-top-expenses',
+  templateUrl: './top-expenses.component.html',
+  styleUrls: ['./top-expenses.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -49,7 +49,7 @@ export class NumberCardZeroMargin {
     NumberCardZeroMargin,
   ],
 })
-export class DashboardComponent {
+export class TopExpenses {
   categories = this.categoryService.categories;
 
   // TODO: fix any

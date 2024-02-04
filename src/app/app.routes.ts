@@ -1,24 +1,24 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { ExpensesComponent } from "./components/expenses/expenses.component";
-import { CategoriesComponent } from "./components/categories/categories.component";
+import { ExpensesComponent } from './components/expenses/expenses.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { TopExpenses } from './components/top-expenses/top-expenses.component';
 
 export const routes: Routes = [
   {
-    path: "",
-    pathMatch: "full",
-    redirectTo: "dashboard"
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'top-expenses',
   },
   {
-    path: "dashboard",
-    component: DashboardComponent
+    path: 'top-expenses',
+    component: TopExpenses,
   },
   {
-    path: "expenses",
-    component: ExpensesComponent
+    path: 'expenses',
+    component: ExpensesComponent,
   },
   {
-    path: "categories",
-    component: CategoriesComponent
-  }
+    path: 'categories',
+    component: CategoriesComponent,
+  },
 ];
