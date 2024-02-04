@@ -3,3 +3,14 @@
   grid-template-columns: 50% 50%;
   gap: 1rem;
 }
+
+.form-field-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.ngx-charts-wrapper {
+  max-height: 50vh;
+}

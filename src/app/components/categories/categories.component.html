@@ -3,7 +3,6 @@
   [showNewButton]="true"
   (onNewClicked)="openCreateDialog()"
 >
-  <!-- TODO: extract config for page size options -->
   <mat-paginator
     (page)="handlePageEvent($event)"
     [length]="categoriesPageInfo().itemCount"

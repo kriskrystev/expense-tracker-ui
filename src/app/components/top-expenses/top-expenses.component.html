@@ -1,14 +1,6 @@
 <app-page-header [page]="'Top Expenses'"></app-page-header>
 <form [formGroup]="formGroup">
-  <!-- TODO: fix style -->
-  <div
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: baseline;
-      gap: 1rem;
-    "
-  >
+  <div class="form-field-wrapper">
     Top
     <mat-form-field color="accent" appearance="outline" class="dense-5">
       <mat-label>Count</mat-label>
@@ -78,7 +70,7 @@
   </div>
 </form>
 
-<div style="max-height: 50vh">
+<div class="ngx-charts-wrapper">
   <ngx-charts-number-card
     [results]="results"
     hotfix-zero-margin

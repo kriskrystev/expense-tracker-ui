@@ -20,6 +20,7 @@ import {
 import { StatisticsService } from '../../services/statistics.service';
 import { map } from 'rxjs';
 import { CreateExpenseResponseDto } from '../../models/expenses/response/create-expense.dto';
+import { ExpenseUi } from '../../models/expenses/ui/expense';
 @Directive({
   selector: '[zero-margin]',
   standalone: true,
@@ -52,8 +53,7 @@ export class NumberCardZeroMargin {
 export class TopExpenses {
   categories = this.categoryService.categories;
 
-  // TODO: fix any
-  results: any[] = [];
+  results: { name: string; value: number }[] = [];
 
   colorScheme = {
     domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d'],
@@ -79,10 +79,6 @@ export class TopExpenses {
         new PageOptionsDto(Order.DESC, 1, Number.MAX_SAFE_INTEGER)
       )
       .subscribe();
-
-    this.formGroup.valueChanges.subscribe({
-      next: (value) => console.log(value),
-    });
   }
 
   fetchStats() {
@@ -92,12 +88,11 @@ export class TopExpenses {
       to: this.formGroup.value.endDate || '',
       categoryId: this.formGroup.value.categoryId || '',
     };
-    // TODO: fix any
     this.statisticsService
       .findTopBetweenDates(payload)
       .pipe(
-        map((results: any) => {
-          return results.map((expense: any) => {
+        map((results: ExpenseUi[]) => {
+          return results.map((expense: ExpenseUi) => {
             return {
               name: expense.date,
               value: expense.amount,
@@ -106,7 +101,7 @@ export class TopExpenses {
         })
       )
       .subscribe({
-        next: (results) => {
+        next: (results: { name: string; value: number }[]) => {
           this.results = results;
         },
       });
