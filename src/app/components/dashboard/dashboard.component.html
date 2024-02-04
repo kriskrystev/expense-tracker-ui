@@ -1,24 +1,86 @@
-<h1 class="mat-h1">Dashboard</h1>
-<mat-grid-list cols="2" rowHeight="350px">
-  @for (card of cards$ | async; track card.title) {
-    <mat-grid-tile [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  }
-</mat-grid-list>
+<app-page-header [page]="'Dashboard'"></app-page-header>
+<form [formGroup]="formGroup">
+  <!-- TODO: fix style -->
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 1rem;
+    "
+  >
+    Top
+    <mat-form-field color="accent" appearance="outline" class="dense-5">
+      <mat-label>Count</mat-label>
+      <mat-select name="number" formControlName="count">
+        <mat-option [value]="5">5</mat-option>
+        <mat-option [value]="10">10</mat-option>
+      </mat-select>
+    </mat-form-field>
+    by
+    <mat-form-field color="accent" appearance="outline" class="dense-5">
+      <mat-label>Category</mat-label>
+      <mat-select name="cateogory" formControlName="categoryId">
+        @for(category of categories(); track category.id) {
+        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field
+      color="accent"
+      appearance="outline"
+      class="dense-5"
+      style="margin-bottom: 1rem"
+    >
+      <mat-label>Start date</mat-label>
+      <input matInput [matDatepicker]="startDate" formControlName="startDate" />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="startDate"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #startDate>
+        <mat-datepicker-actions>
+          <button mat-button matDatepickerCancel>Cancel</button>
+          <button mat-raised-button color="primary" matDatepickerApply>
+            Apply
+          </button>
+        </mat-datepicker-actions>
+      </mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field
+      color="accent"
+      appearance="outline"
+      style="margin-bottom: 1rem"
+      class="dense-5"
+    >
+      <mat-label>End date</mat-label>
+      <input matInput [matDatepicker]="endDate" formControlName="endDate" />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="endDate"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #endDate>
+        <mat-datepicker-actions>
+          <button mat-button matDatepickerCancel>Cancel</button>
+          <button mat-raised-button color="primary" matDatepickerApply>
+            Apply
+          </button>
+        </mat-datepicker-actions>
+      </mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="fetchStats()">
+      Fetch
+    </button>
+  </div>
+</form>
+
+<div style="max-height: 50vh">
+  <ngx-charts-number-card
+    [results]="results"
+    hotfix-zero-margin
+  ></ngx-charts-number-card>
+</div>

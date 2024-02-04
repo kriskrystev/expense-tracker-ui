@@ -1,13 +1,34 @@
-import { Component, inject } from '@angular/core';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, Directive, Self } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgxChartsModule, NumberCardComponent } from '@swimlane/ngx-charts';
+import { PageHeaderComponent } from '../ui/page-header/page-header.component';
 import { MatCardModule } from '@angular/material/card';
-import { AsyncPipe, CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import { MatSelectModule } from '@angular/material/select';
+import { CategoryService } from '../../services/category.service';
+import { PageOptionsDto } from '../../core/dto/page-options.dto';
+import { Order } from '../../core/enums/order.enum';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { StatisticsService } from '../../services/statistics.service';
+import { map } from 'rxjs';
+import { CreateExpenseResponseDto } from '../../models/expenses/response/create-expense.dto';
+@Directive({
+  selector: '[zero-margin]',
+  standalone: true,
+})
+export class NumberCardZeroMargin {
+  constructor(@Self() numberCard: NumberCardComponent) {
+    numberCard.margin = [0, 0, 0, 0];
+  }
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -16,30 +37,78 @@ import { RouterModule } from "@angular/router";
   standalone: true,
   imports: [
     CommonModule,
-    MatGridListModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
+    PageHeaderComponent,
+    ReactiveFormsModule,
+    NgxChartsModule,
     MatCardModule,
-    AsyncPipe
-  ]
+    MatSelectModule,
+    MatInputModule,
+    MatButtonModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    NumberCardZeroMargin,
+  ],
 })
 export class DashboardComponent {
-  private breakpointObserver = inject(BreakpointObserver);
+  categories = this.categoryService.categories;
 
-  /** Based on the screen size, switch from standard to one column per row */
-  cards$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return
-      }
+  // TODO: fix any
+  results: any[] = [];
 
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 }
-      ];
-    })
-  )
+  colorScheme = {
+    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d'],
+  };
+  cardColor: string = '#232837';
+
+  formGroup = this.formBuilder.group({
+    count: [],
+    categoryId: [],
+    startDate: [],
+    endDate: [],
+  });
+
+  constructor(
+    private categoryService: CategoryService,
+    private statisticsService: StatisticsService,
+    private formBuilder: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    this.categoryService
+      .getCategoriesPage(
+        new PageOptionsDto(Order.DESC, 1, Number.MAX_SAFE_INTEGER)
+      )
+      .subscribe();
+
+    this.formGroup.valueChanges.subscribe({
+      next: (value) => console.log(value),
+    });
+  }
+
+  fetchStats() {
+    const payload = {
+      top: this.formGroup.value.count || 5,
+      from: this.formGroup.value.startDate || '',
+      to: this.formGroup.value.endDate || '',
+      categoryId: this.formGroup.value.categoryId || '',
+    };
+    // TODO: fix any
+    this.statisticsService
+      .findTopBetweenDates(payload)
+      .pipe(
+        map((results: any) => {
+          return results.map((expense: any) => {
+            return {
+              name: expense.date,
+              value: expense.amount,
+            };
+          });
+        })
+      )
+      .subscribe({
+        next: (results) => {
+          this.results = results;
+        },
+      });
+  }
 }

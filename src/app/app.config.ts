@@ -29,7 +29,6 @@ import { HttpErrorInterceptor } from './core/error-handling/http-error.intercept
 Date.prototype.toJSON = function () {
   return this.toUTCString();
 };
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
