@@ -11,14 +11,8 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: any): void {
-    // if (!(error instanceof HttpErrorResponse)) {
-    //   error = error.rejection;
-    // }
-
-    if (error instanceof TypeError) {
-      this.zone.run(() => {
-        this.errorDialogService.openDialog(error.message);
-      });
-    }
+    this.zone.run(() => {
+      this.errorDialogService.openDialog(error.message);
+    });
   }
 }

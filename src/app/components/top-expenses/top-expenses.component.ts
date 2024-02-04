@@ -1,5 +1,5 @@
 import { Component, Directive, Self } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgxChartsModule, NumberCardComponent } from '@swimlane/ngx-charts';
 import { PageHeaderComponent } from '../ui/page-header/page-header.component';
 import { MatCardModule } from '@angular/material/card';
@@ -36,6 +36,7 @@ export class NumberCardZeroMargin {
   templateUrl: './top-expenses.component.html',
   styleUrls: ['./top-expenses.component.scss'],
   standalone: true,
+  providers: [DatePipe],
   imports: [
     CommonModule,
     PageHeaderComponent,
@@ -70,7 +71,8 @@ export class TopExpenses {
   constructor(
     private categoryService: CategoryService,
     private statisticsService: StatisticsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
@@ -94,7 +96,7 @@ export class TopExpenses {
         map((results: ExpenseUi[]) => {
           return results.map((expense: ExpenseUi) => {
             return {
-              name: expense.date,
+              name: this.datePipe.transform(expense.date, 'short') as string,
               value: expense.amount,
             };
           });
