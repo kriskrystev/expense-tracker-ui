@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ExpenseUi } from '../models/expenses/ui/expense';
 
 @Injectable({
@@ -8,6 +8,10 @@ import { ExpenseUi } from '../models/expenses/ui/expense';
 })
 export class StatisticsService {
   constructor(private http: HttpClient) {}
+
+  getTotalExpensesForEachCategory() {
+    return this.http.get('http://localhost/api/statistics/total-expenses');
+  }
 
   findTopBetweenDates(params: {
     top: number;
