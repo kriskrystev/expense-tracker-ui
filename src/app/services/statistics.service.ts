@@ -13,6 +13,12 @@ export class StatisticsService {
     return this.http.get('http://localhost/api/statistics/total-expenses');
   }
 
+  getCategoryExtremes(): Observable<{ min: number; max: number }> {
+    return this.http.get<{ min: number; max: number }>(
+      'http://localhost/api/statistics/category-extremes'
+    );
+  }
+
   findTopBetweenDates(params: {
     top: number;
     from: string;

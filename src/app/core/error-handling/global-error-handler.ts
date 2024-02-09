@@ -11,8 +11,9 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: any): void {
-    this.zone.run(() => {
-      this.errorDialogService.openDialog(error.message);
-    });
+    console.log(error);
+    // this.zone.run(() => {
+    //   this.errorDialogService.openDialog(error.message);
+    // });
   }
 }

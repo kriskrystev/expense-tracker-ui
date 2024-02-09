@@ -1,2 +1,40 @@
-<ngx-charts-pie-chart [results]="pieChartData" [doughnut]="true">
-</ngx-charts-pie-chart>
+<div class="widgets-row">
+  <div class="widget">
+    <h4>All Time Expenses Per Category</h4>
+    <ngx-charts-pie-chart
+      style="padding: 1rem"
+      [results]="pieChartData"
+      [doughnut]="true"
+      [legend]="true"
+    >
+    </ngx-charts-pie-chart>
+  </div>
+
+  <div class="widget">
+    <h4>Extremes</h4>
+    <div class="trendings">
+      <div class="trending-up">
+        <span>Biggest expense </span>
+
+        <mat-icon
+          aria-hidden="false"
+          class="mat-icon-size-3"
+          aria-label="Top expenses nav list item icon"
+          >trending_up</mat-icon
+        >
+        <span>{{ extremes.max }}</span>
+      </div>
+
+      <div class="trending-down">
+        <span>Smallest expense </span>
+        <mat-icon
+          aria-hidden="false"
+          class="mat-icon-size-3"
+          aria-label="Top expenses nav list item icon"
+          >trending_down</mat-icon
+        >
+        <span>{{ extremes.min }}</span>
+      </div>
+    </div>
+  </div>
+</div>

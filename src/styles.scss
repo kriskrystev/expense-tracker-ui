@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 
+@import "./assets/scss-mixins.scss";
+
 html,
 body {
   height: 100%;
@@ -11,4 +13,8 @@ body {
 }
 .dense-5 {
   @include mat.all-component-densities(-5);
+}
+
+.mat-icon-size-3 {
+  @include mat-icon-size(3rem);
 }
