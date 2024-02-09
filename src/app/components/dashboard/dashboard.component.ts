@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { StatisticsService } from '../../services/statistics.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatIconModule } from '@angular/material/icon';
+import { TopExpenses } from '../top-expenses/top-expenses.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatIconModule, NgxChartsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
+  imports: [MatIconModule, NgxChartsModule, TopExpenses],
 })
 export class DashboardComponent implements OnInit {
   pieChartData: any[] = [];
