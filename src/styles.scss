@@ -11,10 +11,15 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
 .dense-5 {
   @include mat.all-component-densities(-5);
 }
 
 .mat-icon-size-3 {
   @include mat-icon-size(3rem);
+}
+
+.ngx-charts-wrapper {
+  max-height: 50vh;
 }
