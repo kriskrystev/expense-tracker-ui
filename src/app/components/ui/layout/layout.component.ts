@@ -53,4 +53,8 @@ export class LayoutComponent {
       )
       .subscribe();
   }
+
+  logout() {
+    this.authService.logout();
+  }
 }

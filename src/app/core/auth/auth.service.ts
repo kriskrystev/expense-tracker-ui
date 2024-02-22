@@ -33,6 +33,12 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  logout() {
+    localStorage.removeItem('access_token');
+    this.initLogin();
+    this.loggedIn$.next(false);
+  }
+
   login(username: string, password: string) {
     return this.http
       .post<{ access_token: string }>('http://localhost/api/auth/login', {
