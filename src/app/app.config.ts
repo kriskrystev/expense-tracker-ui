@@ -11,11 +11,11 @@ import {
   HttpClientModule,
   provideHttpClient,
   withInterceptors,
-  withInterceptorsFromDi,
 } from '@angular/common/http';
 import { GlobalErrorHandler } from './core/error-handling/global-error-handler';
 import { HttpLoadingInterceptor } from './core/error-handling/http-loading.interceptor';
 import { HttpErrorInterceptor } from './core/error-handling/http-error.interceptor';
+import { authInterceptor } from './core/auth/auth.interceptor';
 
 /**
  * Overrides the default toJSON implemenation, which is using the toISOString() method.
@@ -34,7 +34,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     importProvidersFrom(HttpClientModule),
     provideHttpClient(
-      withInterceptors([HttpErrorInterceptor, HttpLoadingInterceptor])
+      withInterceptors([
+        authInterceptor,
+        HttpErrorInterceptor,
+        HttpLoadingInterceptor,
+      ])
     ),
     {
       provide: ErrorHandler,
