@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { filter, map, shareReplay, tap } from 'rxjs/operators';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { SidenavService } from '../../../core/services/sidenav.service';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -29,6 +30,7 @@ import { SidenavService } from '../../../core/services/sidenav.service';
   ],
 })
 export class LayoutComponent {
+  loggedIn = this.authService.loggedIn$;
   private breakpointObserver = inject(BreakpointObserver);
   componentData$ = this.sidenavService.componentData$;
 
@@ -39,7 +41,11 @@ export class LayoutComponent {
       shareReplay()
     );
 
-  constructor(private sidenavService: SidenavService, private router: Router) {
+  constructor(
+    private sidenavService: SidenavService,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationStart),
