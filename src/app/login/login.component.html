@@ -1,1 +1,52 @@
-<p>login works!</p>
+<form *ngIf="form" [formGroup]="form">
+  <h1>Credentials</h1>
+  <mat-form-field
+    color="accent"
+    appearance="outline"
+    [style.margin-bottom]="
+      matcher.isErrorState(form.controls['username'], form) ? '1rem' : ''
+    "
+  >
+    <mat-label>Username</mat-label>
+    <input
+      matInput
+      [errorStateMatcher]="matcher"
+      [formControl]="form.get('username')"
+    />
+
+    <mat-error>
+      <app-form-field-error-message
+        [control]="form.controls['username']"
+        [controlErrors]="form.controls['username'].errors"
+        [validationParameters]="{ minlength: 2 }"
+        [isErrorState]="matcher.isErrorState(form.controls['username'], form)"
+      ></app-form-field-error-message>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field
+    color="accent"
+    appearance="outline"
+    [style.margin-bottom]="
+      matcher.isErrorState(form.controls['password'], form) ? '1rem' : ''
+    "
+  >
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      [errorStateMatcher]="matcher"
+      [formControl]="form.get('password')"
+    />
+
+    <mat-error>
+      <app-form-field-error-message
+        [control]="form.controls['password']"
+        [controlErrors]="form.controls['password'].errors"
+        [validationParameters]="{ minlength: 8 }"
+        [isErrorState]="matcher.isErrorState(form.controls['password'], form)"
+      ></app-form-field-error-message>
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary">Login</button>
+</form>
