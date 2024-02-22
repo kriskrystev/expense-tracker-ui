@@ -34,6 +34,7 @@
     <mat-label>Password</mat-label>
     <input
       matInput
+      [type]="'password'"
       [errorStateMatcher]="matcher"
       [formControl]="form.get('password')"
     />
@@ -48,5 +49,5 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-flat-button color="primary">Login</button>
+  <button mat-flat-button color="primary" (click)="login()">Login</button>
 </form>
