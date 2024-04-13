@@ -10,7 +10,10 @@ import { Observable } from 'rxjs';
 import { filter, map, shareReplay, tap } from 'rxjs/operators';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { SidenavService } from '../../../core/services/sidenav.service';
-import { AuthService } from '../../../core/auth/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/state/interfaces/app.state';
+import { selectHasAccessToken } from '../../../core/state/auth/selectors/auth.selectors';
+import { logout } from '../../../core/state/auth/actions/auth.action';
 
 @Component({
   selector: 'app-layout',
@@ -30,7 +33,7 @@ import { AuthService } from '../../../core/auth/auth.service';
   ],
 })
 export class LayoutComponent {
-  loggedIn = this.authService.loggedIn$;
+  loggedIn$ = this.store.select(selectHasAccessToken);
   private breakpointObserver = inject(BreakpointObserver);
   componentData$ = this.sidenavService.componentData$;
 
@@ -44,7 +47,7 @@ export class LayoutComponent {
   constructor(
     private sidenavService: SidenavService,
     private router: Router,
-    private authService: AuthService
+    private store: Store<AppState>
   ) {
     this.router.events
       .pipe(
@@ -55,6 +58,6 @@ export class LayoutComponent {
   }
 
   logout() {
-    this.authService.logout();
+    this.store.dispatch(logout());
   }
 }

@@ -49,5 +49,8 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-flat-button color="primary" (click)="login()">Login</button>
+  <button mat-flat-button color="primary" (click)="login()">
+    <mat-spinner *ngIf="loading$ | async" color="accent" [diameter]="20"></mat-spinner>
+    <span *ngIf="(loading$ | async) === false">Login</span>
+  </button>
 </form>

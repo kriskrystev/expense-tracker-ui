@@ -16,6 +16,11 @@ import { GlobalErrorHandler } from './core/error-handling/global-error-handler';
 import { HttpLoadingInterceptor } from './core/error-handling/http-loading.interceptor';
 import { HttpErrorInterceptor } from './core/error-handling/http-error.interceptor';
 import { authInterceptor } from './core/auth/auth.interceptor';
+import { StoreModule, provideStore } from '@ngrx/store';
+import { authReducer } from './core/state/auth/reducers/auth.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { provideEffects } from '@ngrx/effects';
+import { AuthEffects } from './core/state/auth/effects/auth.effects';
 
 /**
  * Overrides the default toJSON implemenation, which is using the toISOString() method.
@@ -32,7 +37,18 @@ Date.prototype.toJSON = function () {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    importProvidersFrom(HttpClientModule),
+    provideStore(),
+    provideEffects(AuthEffects),
+    importProvidersFrom(
+      HttpClientModule,
+      StoreModule.forRoot({
+        auth: authReducer
+      }),
+      StoreDevtoolsModule.instrument({
+        maxAge: 25, // Retains last 25 states
+        // logOnly: environment.production, // Restrict extension to log-only mode
+      }),
+    ),
     provideHttpClient(
       withInterceptors([
         authInterceptor,
@@ -46,4 +62,5 @@ export const appConfig: ApplicationConfig = {
     },
     provideAnimations(),
   ],
+
 };

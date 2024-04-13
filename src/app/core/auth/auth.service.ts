@@ -7,13 +7,9 @@ import { BehaviorSubject, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  loggedIn$ = new BehaviorSubject(false);
   url = 'http://localhost/api';
 
   constructor(private router: Router, private http: HttpClient) {
-    if (this.hasAccessToken()) {
-      this.loggedIn$.next(true);
-    }
   }
 
   getToken() {
@@ -26,7 +22,6 @@ export class AuthService {
 
   setAccessToken(token: string): void {
     localStorage.setItem('access_token', token);
-    this.loggedIn$.next(true);
   }
 
   initLogin() {
@@ -36,7 +31,6 @@ export class AuthService {
   logout() {
     localStorage.removeItem('access_token');
     this.initLogin();
-    this.loggedIn$.next(false);
   }
 
   login(username: string, password: string) {

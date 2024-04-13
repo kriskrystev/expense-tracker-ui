@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
-    *ngIf="loggedIn | async"
+    *ngIf="loggedIn$ | async"
     #navigationDrawer
     class="sidenav"
     fixedInViewport
@@ -58,7 +58,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" *ngIf="loggedIn | async">
+    <mat-toolbar color="primary" *ngIf="loggedIn$ | async">
       @if (isHandset$ | async) {
       <button
         type="button"
@@ -78,7 +78,7 @@
   </mat-sidenav-content>
 
   <mat-sidenav
-    *ngIf="loggedIn | async"
+    *ngIf="loggedIn$ | async"
     #formsDrawer
     class="sidenav-end"
     position="end"

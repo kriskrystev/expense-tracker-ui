@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -13,11 +13,14 @@ import { MatInputModule } from '@angular/material/input';
 import { ERROR_STATE_MATCHER_TOKEN } from '../core/utils/error-state-matcher';
 import { FormFieldErrorMessageComponent } from '../components/ui/form-field-error-message/form-field-error-message.component';
 import { ValidateForm } from '../core/decorators/validate-form.decorator';
-import { AuthService } from '../core/auth/auth.service';
+import { Store } from '@ngrx/store';
+import { login } from '../core/state/auth/actions/auth.action';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { selectLoginLoading } from '../core/state/auth/selectors/auth.selectors';
+import { AppState } from '../core/state/interfaces/app.state';
 
-const core = [NgIf, FormsModule, ReactiveFormsModule];
-
-const material = [MatFormFieldModule, MatInputModule, MatButtonModule];
+const core = [NgIf, FormsModule, AsyncPipe, ReactiveFormsModule];
+const material = [MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule];
 const internal = [FormFieldErrorMessageComponent];
 
 @Component({
@@ -30,8 +33,11 @@ const internal = [FormFieldErrorMessageComponent];
 export class LoginComponent implements OnInit {
   form!: FormGroup;
   matcher = inject(ERROR_STATE_MATCHER_TOKEN);
+  loading$ = this.store.select(selectLoginLoading);
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private store: Store<AppState>,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -42,8 +48,6 @@ export class LoginComponent implements OnInit {
 
   @ValidateForm()
   login(): void {
-    this.authService
-      .login(this.form.value.username, this.form.value.password)
-      .subscribe();
+    this.store.dispatch(login({ payload: { ...this.form.value } }));
   }
 }
