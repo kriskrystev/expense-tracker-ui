@@ -1,20 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PageHeaderComponent } from '../ui/page-header/page-header.component';
-import { ExpenseCreateComponent } from './expense-create/expense-create.component';
-import { ExpenseService } from '../../services/expense.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngrx/store';
 import { PageOptionsDto } from '../../core/dto/page-options.dto';
 import { Order } from '../../core/enums/order.enum';
-import { take } from 'rxjs';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { CommonModule } from '@angular/common';
-import { ExpenseListItemComponent } from './expense-list-item/expense-list-item.component';
-import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
-import { MatButtonModule } from '@angular/material/button';
 import { SidenavService } from '../../core/services/sidenav.service';
-import { Store } from '@ngrx/store';
 import { AppState } from '../../core/state/interfaces/app.state';
-import { selectExpenses } from './state/selectors/expenses.selectors';
+import { PageHeaderComponent } from '../ui/page-header/page-header.component';
+import { ExpenseCreateComponent } from './expense-create/expense-create.component';
+import { ExpenseListItemComponent } from './expense-list-item/expense-list-item.component';
 import { loadExpenses } from './state/actions/expenses.actions';
+import { selectExpenses, selectExpensesMetaData } from './state/selectors/expenses.selectors';
 @Component({
   selector: 'app-expenses',
   standalone: true,
@@ -32,11 +30,10 @@ import { loadExpenses } from './state/actions/expenses.actions';
 export class ExpensesComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
-  expenses = this.store.select(selectExpenses);
-  expensesPageInfo = this.expensesService.expensesPageInfo;
+  expenses$ = this.store.select(selectExpenses);
+  expensesPageInfo$ = this.store.select(selectExpensesMetaData);
 
   constructor(
-    private expensesService: ExpenseService,
     private sidenavService: SidenavService,
     private store: Store<AppState>
   ) {}
@@ -48,7 +45,7 @@ export class ExpensesComponent implements OnInit {
           pageOptions: new PageOptionsDto(Order.DESC)
         }
       })
-    )
+    );
   }
 
   openExpenseDrawer() {
@@ -59,11 +56,13 @@ export class ExpensesComponent implements OnInit {
   }
 
   handlePageEvent(event: PageEvent) {
-    this.expensesService
-      .getAllExpenses(
-        new PageOptionsDto(Order.DESC, event.pageIndex + 1, event.pageSize)
-      )
-      .subscribe();
+    this.store.dispatch(
+      loadExpenses({
+        payload: {
+          pageOptions: new PageOptionsDto(Order.DESC, event.pageIndex + 1, event.pageSize)
+        }
+      })
+    );
   }
 
   openAll() {

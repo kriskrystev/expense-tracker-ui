@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
-import { login, loginFailure, loginSuccess, logout, logoutSuccess } from "../actions/auth.action";
 import { AuthState } from "../../interfaces/auth.state";
+import { login, loginFailure, loginSuccess, logoutSuccess } from "../actions/auth.action";
 
 export const initialState: AuthState = {
     loading: false,

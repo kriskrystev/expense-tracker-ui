@@ -1,13 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Injectable, NgZone } from '@angular/core';
-import { ErrorDialogService } from './error-dialog.service';
+import { ErrorHandler, Injectable } from '@angular/core';
 
 // TODO: rethink this and maybe make it so that it only appearch for dev and local env...
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(
-    private errorDialogService: ErrorDialogService,
-    private zone: NgZone
   ) {}
 
   handleError(error: any): void {

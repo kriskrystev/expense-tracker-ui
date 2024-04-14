@@ -1,31 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
-import { PageMetaDto } from '../core/dto/page-meta.dto';
-import { CreateExpenseRequestDto } from '../models/expenses/request/create-expense.dto';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, switchMap } from 'rxjs';
+import { HttpPageParamsBuilder } from '../core/builders/http-page-params.builder';
 import { PageOptionsDto } from '../core/dto/page-options.dto';
 import { PageDto } from '../core/dto/page.dto';
-import { HttpPageParamsBuilder } from '../core/builders/http-page-params.builder';
-import { CreateExpenseResponseDto } from '../models/expenses/response/create-expense.dto';
 import { Order } from '../core/enums/order.enum';
+import { CreateExpenseRequestDto } from '../models/expenses/request/create-expense.dto';
 import {
   UpdateExpenseRequestDto,
   UpdateExpenseResponseDto,
 } from '../models/expenses/request/update-expense.dto';
+import { CreateExpenseResponseDto } from '../models/expenses/response/create-expense.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseService {
-  expenses = signal<CreateExpenseResponseDto[]>([]);
-  expensesPageInfo = signal<PageMetaDto>({
-    take: 5,
-    page: 1,
-    itemCount: 0,
-    pageCount: 0,
-    hasPreviousPage: false,
-    hasNextPage: false,
-  });
 
   #http = inject(HttpClient);
   #url = 'http://localhost/api';
@@ -46,12 +36,6 @@ export class ExpenseService {
       .get<PageDto<CreateExpenseResponseDto>>(`${this.#url}/expense`, {
         params: params,
       })
-      .pipe(
-        tap((pageDto: PageDto<CreateExpenseResponseDto>) => {
-          this.expenses.set(pageDto.data);
-          this.expensesPageInfo.set(pageDto.meta);
-        })
-      );
   }
 
   createExpense(
@@ -72,19 +56,7 @@ export class ExpenseService {
       .patch<UpdateExpenseResponseDto>(
         `${this.#url}/expense/${payload.id}`,
         payload
-      )
-      .pipe(
-        tap((data) => {
-          this.expenses.update((values) => {
-            return values.map((element) => {
-              if (element.id === payload.id) {
-                return { ...data };
-              }
-              return element;
-            });
-          });
-        })
-      );
+    );
   }
 
   removeExpense(id: string) {

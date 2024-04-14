@@ -1,5 +1,5 @@
 export function ValidateForm() {
-  return (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (_target: Object, _propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value;
 
     descriptor.value = function(...args: any[]) {

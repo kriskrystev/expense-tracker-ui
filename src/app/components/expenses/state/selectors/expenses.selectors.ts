@@ -13,3 +13,8 @@ export const selectExpenses = createSelector(
     selectFeature,
     adapter.getSelectors().selectAll
 );
+
+export const selectExpensesMetaData = createSelector(
+    selectFeature,
+    (state: ExpenseState) => state.metaData
+);

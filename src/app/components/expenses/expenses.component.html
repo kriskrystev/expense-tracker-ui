@@ -4,9 +4,10 @@
   (onNewClicked)="openExpenseDrawer()"
 >
   <mat-paginator
+    *ngIf="expensesPageInfo$ | async as pageMetaData"
     (page)="handlePageEvent($event)"
-    [length]="expensesPageInfo().itemCount"
-    [pageSize]="expensesPageInfo().take"
+    [length]="pageMetaData.itemCount"
+    [pageSize]="pageMetaData.take"
     [pageSizeOptions]="[5, 10, 15]"
     [showFirstLastButtons]="true"
     aria-label="Select page"
@@ -20,7 +21,7 @@
 </div>
 
 <mat-accordion class="expenses" displayMode="flat" multi>
-  @for(expense of expenses | async; track expense.id) {
+  @for(expense of expenses$ | async; track expense.id) {
   <app-expense-list-item #accordion [expense]="expense"></app-expense-list-item>
   } @empty {
   <p>

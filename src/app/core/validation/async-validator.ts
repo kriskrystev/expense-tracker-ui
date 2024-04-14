@@ -4,9 +4,9 @@ import {
   AsyncValidator,
   ValidationErrors,
 } from '@angular/forms';
-import { Observable, of, switchMap, timer } from 'rxjs';
-import { CategoryService } from '../../services/category.service';
+import { Observable, switchMap, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CategoryService } from '../../services/category.service';
 
 @Injectable({
   providedIn: 'root',

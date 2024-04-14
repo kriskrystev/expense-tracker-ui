@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EnvironmentInjector, Input, inject } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { ExpenseUi } from '../../../models/expenses/ui/expense';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { Confirmable } from '../../../core/decorators/confirmable.decorator';
-import { ExpenseService } from '../../../services/expense.service';
 import { SidenavService } from '../../../core/services/sidenav.service';
+import { ExpenseUi } from '../../../models/expenses/ui/expense';
+import { ExpenseService } from '../../../services/expense.service';
 import { ExpenseEditComponent } from '../expense-edit/expense-edit.component';
 
 @Component({

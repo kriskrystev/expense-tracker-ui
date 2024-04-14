@@ -1,12 +1,12 @@
-import { ConfirmationDialogComponent } from '../../components/ui/confirmation-dialog/confirmation-dialog.component';
 import { inject, runInInjectionContext } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
+import { ConfirmationDialogComponent } from '../../components/ui/confirmation-dialog/confirmation-dialog.component';
 
 export function Confirmable(options?: any) {
   return (
-    target: Object,
-    propertyKey: string,
+    _target: Object,
+    _propertyKey: string,
     descriptor: PropertyDescriptor
   ) => {
     const originalMethod = descriptor.value;

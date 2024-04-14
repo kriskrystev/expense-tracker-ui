@@ -11,7 +11,7 @@ export class ExpensesEffects {
             ofType(loadExpenses),
             switchMap((action) => {
                 return this.expensesService.getAllExpenses(action.payload.pageOptions).pipe(
-                    map((results) => loadExpensesSuccess({ payload: { expenses: results.data } })),
+                    map((results) => loadExpensesSuccess({ payload: { expenses: results.data, metaData: results.meta } })),
                     catchError((err) => of(loadExpensesFailure(err)))
                 )
             })
