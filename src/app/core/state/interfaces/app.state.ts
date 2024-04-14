@@ -1,4 +1,4 @@
-import { ExpenseState } from "../../../components/expenses/state/reducers/expenses.reducer";
+import { ExpenseState } from "../../../components/expenses/state/reducers/initial-state";
 import { AuthState } from "./auth.state";
 
 export interface AppState {

@@ -11,20 +11,33 @@ import { AppState } from '../../core/state/interfaces/app.state';
 import { PageHeaderComponent } from '../ui/page-header/page-header.component';
 import { ExpenseCreateComponent } from './expense-create/expense-create.component';
 import { ExpenseListItemComponent } from './expense-list-item/expense-list-item.component';
-import { loadExpenses } from './state/actions/expenses.actions';
+import { loadExpenses } from './state/actions/expenses-load.actions';
 import { selectExpenses, selectExpensesMetaData } from './state/selectors/expenses.selectors';
+
+const core = [
+  CommonModule,
+];
+
+const internal = [
+  PageHeaderComponent,
+  ExpenseListItemComponent,
+];
+
+const material = [
+  MatExpansionModule,
+  MatButtonModule,
+  MatPaginatorModule,
+]
+
 @Component({
   selector: 'app-expenses',
   standalone: true,
   templateUrl: './expenses.component.html',
   styleUrl: './expenses.component.scss',
   imports: [
-    CommonModule,
-    PageHeaderComponent,
-    MatExpansionModule,
-    MatButtonModule,
-    ExpenseListItemComponent,
-    MatPaginatorModule,
+    ...core,
+    ...internal,
+    ...material
   ],
 })
 export class ExpensesComponent implements OnInit {
@@ -48,13 +61,6 @@ export class ExpensesComponent implements OnInit {
     );
   }
 
-  openExpenseDrawer() {
-    this.sidenavService.open({
-      component: ExpenseCreateComponent,
-      inputs: [],
-    });
-  }
-
   handlePageEvent(event: PageEvent) {
     this.store.dispatch(
       loadExpenses({
@@ -63,6 +69,13 @@ export class ExpensesComponent implements OnInit {
         }
       })
     );
+  }
+
+  openExpenseDrawer() {
+    this.sidenavService.open({
+      component: ExpenseCreateComponent,
+      inputs: [],
+    });
   }
 
   openAll() {

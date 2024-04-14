@@ -3,16 +3,28 @@ import { Component, EnvironmentInjector, Input, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { Store } from '@ngrx/store';
 import { Confirmable } from '../../../core/decorators/confirmable.decorator';
 import { SidenavService } from '../../../core/services/sidenav.service';
+import { AppState } from '../../../core/state/interfaces/app.state';
 import { ExpenseUi } from '../../../models/expenses/ui/expense';
-import { ExpenseService } from '../../../services/expense.service';
 import { ExpenseEditComponent } from '../expense-edit/expense-edit.component';
+import { deleteExpense } from '../state/actions/expenses-delete.actions';
+
+const core = [
+  CommonModule
+];
+
+const material = [
+  MatButtonModule,
+  MatIconModule,
+  MatExpansionModule
+]
 
 @Component({
   selector: 'app-expense-list-item',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatExpansionModule],
+  imports: [...core, ...material],
   templateUrl: './expense-list-item.component.html',
   styleUrl: './expense-list-item.component.scss',
 })
@@ -21,8 +33,9 @@ export class ExpenseListItemComponent {
 
   // TODO: define a mixin class for this injector and extend it where needed
   #environmentInjector = inject(EnvironmentInjector);
-  #expenseService = inject(ExpenseService);
   #sidenavService = inject(SidenavService);
+
+  constructor(private store: Store<AppState>) { }
 
   onEdit() {
     this.#sidenavService.open({
@@ -38,9 +51,13 @@ export class ExpenseListItemComponent {
     textPrompt: 'Are you sure you wish to delete this expense?',
   })
   onDelete() {
-    this.#expenseService.removeExpense(this.expense.id).subscribe({
-      next: () => this.#sidenavService.close(),
-    });
+    this.store.dispatch(
+      deleteExpense({
+        payload: {
+          expenseId: this.expense.id
+        }
+      })
+    );
   }
 
   getEnvironmentInjector() {

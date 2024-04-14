@@ -1,6 +1,6 @@
 import { createSelector } from "@ngrx/store";
 import { AppState } from "../../../../core/state/interfaces/app.state";
-import { ExpenseState, adapter } from "../reducers/expenses.reducer";
+import { ExpenseState, adapter } from "../reducers/initial-state";
 
 export const selectFeature = (state: AppState) => state.expenses;
 

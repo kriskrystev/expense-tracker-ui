@@ -5,24 +5,24 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   HttpClientModule,
   provideHttpClient,
   withInterceptors,
 } from '@angular/common/http';
-import { GlobalErrorHandler } from './core/error-handling/global-error-handler';
-import { HttpLoadingInterceptor } from './core/error-handling/http-loading.interceptor';
-import { HttpErrorInterceptor } from './core/error-handling/http-error.interceptor';
-import { authInterceptor } from './core/auth/auth.interceptor';
-import { StoreModule, provideStore } from '@ngrx/store';
-import { authReducer } from './core/state/auth/reducers/auth.reducer';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideEffects } from '@ngrx/effects';
-import { AuthEffects } from './core/state/auth/effects/auth.effects';
+import { StoreModule, provideStore } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { routes } from './app.routes';
 import { ExpensesEffects } from './components/expenses/state/effects/expenses.effects';
 import { expensesReducer } from './components/expenses/state/reducers/expenses.reducer';
+import { authInterceptor } from './core/auth/auth.interceptor';
+import { GlobalErrorHandler } from './core/error-handling/global-error-handler';
+import { HttpErrorInterceptor } from './core/error-handling/http-error.interceptor';
+import { HttpLoadingInterceptor } from './core/error-handling/http-loading.interceptor';
+import { AuthEffects } from './core/state/auth/effects/auth.effects';
+import { authReducer } from './core/state/auth/reducers/auth.reducer';
 
 /**
  * Overrides the default toJSON implemenation, which is using the toISOString() method.
