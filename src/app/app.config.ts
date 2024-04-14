@@ -21,6 +21,8 @@ import { authReducer } from './core/state/auth/reducers/auth.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './core/state/auth/effects/auth.effects';
+import { ExpensesEffects } from './components/expenses/state/effects/expenses.effects';
+import { expensesReducer } from './components/expenses/state/reducers/expenses.reducer';
 
 /**
  * Overrides the default toJSON implemenation, which is using the toISOString() method.
@@ -38,11 +40,12 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideStore(),
-    provideEffects(AuthEffects),
+    provideEffects(AuthEffects, ExpensesEffects),
     importProvidersFrom(
       HttpClientModule,
       StoreModule.forRoot({
-        auth: authReducer
+        auth: authReducer,
+        expenses: expensesReducer
       }),
       StoreDevtoolsModule.instrument({
         maxAge: 25, // Retains last 25 states

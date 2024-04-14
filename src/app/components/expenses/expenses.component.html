@@ -20,7 +20,7 @@
 </div>
 
 <mat-accordion class="expenses" displayMode="flat" multi>
-  @for(expense of expenses(); track expense.id) {
+  @for(expense of expenses | async; track expense.id) {
   <app-expense-list-item #accordion [expense]="expense"></app-expense-list-item>
   } @empty {
   <p>

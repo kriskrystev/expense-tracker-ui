@@ -11,6 +11,10 @@ import { ExpenseListItemComponent } from './expense-list-item/expense-list-item.
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { SidenavService } from '../../core/services/sidenav.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../core/state/interfaces/app.state';
+import { selectExpenses } from './state/selectors/expenses.selectors';
+import { loadExpenses } from './state/actions/expenses.actions';
 @Component({
   selector: 'app-expenses',
   standalone: true,
@@ -28,19 +32,23 @@ import { SidenavService } from '../../core/services/sidenav.service';
 export class ExpensesComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
-  expenses = this.expensesService.expenses;
+  expenses = this.store.select(selectExpenses);
   expensesPageInfo = this.expensesService.expensesPageInfo;
 
   constructor(
     private expensesService: ExpenseService,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    this.expensesService
-      .getAllExpenses(new PageOptionsDto(Order.DESC))
-      .pipe(take(1))
-      .subscribe();
+    this.store.dispatch(
+      loadExpenses({
+        payload: {
+          pageOptions: new PageOptionsDto(Order.DESC)
+        }
+      })
+    )
   }
 
   openExpenseDrawer() {
